@@ -11,3 +11,5 @@ export const CaseUpdatePUT = `${apiUrl}/case`
 export const UserPOST = `${apiUrl}/user`
 
 export const UserLoginPOST = `${apiUrl}/user`
+
+export const UserByIdGET = `${apiUrl}/user`

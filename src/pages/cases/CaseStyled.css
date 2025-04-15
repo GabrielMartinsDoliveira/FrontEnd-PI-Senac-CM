@@ -1,0 +1,37 @@
+#case-page-container {
+  position: fixed;
+  top: 12vh;
+  left: 12vw;
+  width: 83vw;
+  height: 80vh;
+  background-color: #dee1eb;
+  /* margin: 0 0 0 0; */
+  padding: 2rem;
+  border: 2px solid #0000009d;
+  overflow-y: auto;
+}
+
+.flex-row-container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+}
+
+.label-bg {
+  background-color: white;
+  color: #05253E;
+}
+
+.cases-container {
+  background-color:white;
+  padding: 0.5rem 0;
+  margin: 1rem 0;
+  
+}
+
+.icons-config {
+  font-size: 24px;
+  color: #333;
+  padding-top: 1rem;
+  gap: 1rem;
+}

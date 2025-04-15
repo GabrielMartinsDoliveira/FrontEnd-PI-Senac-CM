@@ -1,0 +1,26 @@
+header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 12vh;
+    background-color: white;
+    display: flex;
+    align-items: center;
+    padding: 0 20px;
+    box-shadow: 0 2px 5px white;
+    z-index: 99; /* Um nível abaixo do navbar */
+  }
+  
+  header section {
+    display: flex;
+    align-items: center;
+    height: 100%;
+  }
+  
+  header img {
+    height: 60px; /* Altura controlada para a logo */
+    width: auto; /* Mantém proporção */
+    max-width: 180px; /* Limite máximo de largura */
+    object-fit: contain;
+  }

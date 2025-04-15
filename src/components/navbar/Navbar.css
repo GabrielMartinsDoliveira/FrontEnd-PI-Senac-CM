@@ -1,0 +1,88 @@
+nav {
+  position: fixed;
+  left: 0;
+  top: 12vh;
+  bottom: 0;
+  width: 12vw;
+  background-color: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 5px white;
+  z-index: 100;
+  border: none;
+}
+
+nav > div {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 15px 0;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+nav > div:hover {
+  background-color: #f0f0f0;
+}
+
+nav > div > div {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 12px;
+  padding: 0 16px;
+}
+
+nav svg {
+  font-size: 24px;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+nav p {
+  margin: 0;
+  font-size: 16px;
+  color: #333;
+}
+
+nav li {
+  width: 100%;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  background-color: #f8f8f8;
+}
+
+nav ul {
+  padding: 10px 0;
+  text-align: center;
+  font-size: 16px;
+  color: #333;
+  transition: background-color 0.3s;
+}
+
+nav a {
+  text-decoration: none;
+}
+
+nav ul:hover {
+  background-color: #e0e0e0;
+}
+
+nav > div.active {
+  background-color: #05253E;
+  object-fit: contain;
+  height:min-content;
+}
+
+nav > div.active svg,
+nav > div.active p {
+  color: white;
+}
+
+nav > div.active:hover {
+  background-color: #05253E;
+}

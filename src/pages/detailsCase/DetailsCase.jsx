@@ -2,6 +2,8 @@ import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { CasesDetailsGET } from "../../api/PathsApi";
 import { goToCases } from "../../router/Coordinator";
+import Header from "../../components/header/Header";
+import Navbar from "../../components/navbar/Navbar";
 
 function DetailsCases() {
   const { id } = useParams();
@@ -34,6 +36,8 @@ function DetailsCases() {
 
   return (
     <>
+      <Header />
+      <Navbar />
       {caseDetail ? (
         <div>
           <p>Titulo: {caseDetail.titulo}</p>

@@ -4,6 +4,8 @@ import Header from "../../components/header/Header";
 import { useEffect, useState } from "react";
 import { CasesGET } from "../../api/PathsApi";
 import { goToCase } from "../../router/Coordinator";
+import { RiEditFill, RiDeleteBin6Fill } from "react-icons/ri";
+import './CaseStyled.css'
 
 function Cases() {
   const navigate = useNavigate();
@@ -28,21 +30,22 @@ function Cases() {
   };
 
   useEffect(() => {
-    console.log(cases)
+    console.log(cases);
     getCases();
   }, []);
 
   const allCases =
     Array.isArray(cases) &&
     cases.map((caso) => (
-      <div key={caso?._id} onClick={() => handleGoToCase(caso?._id)}>
-        <p>Titulo: {caso.titulo}</p>
-        <p>Descrição: {caso.descricao}</p>
-        <p>Status: {caso.status}</p>
-        <p>Responsável: {caso.responsavel.nome}</p>
-        <p>Data Abertura: {caso.dataAbertura}</p>
-        <p>Data Fechamento: {caso.dataFechamento}</p>
-        <button>Editar</button>
+      <div class="flex-row-container cases-container" key={caso?._id}>
+        <p>{cases.indexOf(caso) + 1}</p>
+        <p> {caso.responsavel.nome}</p>
+        <p> {caso.dataAbertura}</p>
+        <p> {caso.status}</p>
+        <div class="flex-row-container icons-config">
+          <RiEditFill onClick={() => handleGoToCase(caso._id)} />
+          <RiDeleteBin6Fill />
+        </div>
       </div>
     ));
 
@@ -64,23 +67,26 @@ function Cases() {
   const displayFilteredCases =
     Array.isArray(filteredCases) &&
     filteredCases.map((caso) => (
-      <div key={caso?.id} onClick={() => handleGoToCase(caso.id)}>
-        <p>Titulo: {caso.titulo}</p>
-        <p>Descrição: {caso.descricao}</p>
-        <p>Status: {caso.status}</p>
-        <p>Responsável: {caso.responsavel.nome}</p>
-        <p>Data Abertura: {caso.dataAbertura}</p>
-        <p>Data Fechamento: {caso.dataFechamento}</p>
-        <button>Editar</button>
+      <div class="flex-row-container cases-container" key={caso?._id}>
+        <p>{filteredCases.indexOf(caso) + 1}</p>
+        <p> {caso.responsavel.nome}</p>
+        <p> {caso.dataAbertura}</p>
+        <p> {caso.status}</p>
+        <div class="flex-row-container icons-config">
+          <RiEditFill onClick={() => handleGoToCase(caso._id)} />
+          <RiDeleteBin6Fill />
+        </div>
       </div>
     ));
 
   return (
-    <div>
+    <>
       <Header />
       <Navbar />
-      <div className="filters">
-        <div className="filter-group">
+      <div id="case-page-container">
+
+      <div class="filters">
+        {/* <div class="filter-group">
           <label htmlFor="responsibleFilter">Filtrar por Responsavel:</label>
           <input
             id="responsibleFilter"
@@ -91,7 +97,7 @@ function Cases() {
           />
         </div>
 
-        <div className="filter-group">
+        <div class="filter-group">
           <label htmlFor="statusFilter">Filtrar por Status:</label>
           <select
             id="statusFilter"
@@ -103,10 +109,18 @@ function Cases() {
               <option value={caso.status}>{caso.status}</option>
             ))}
           </select>
+        </div> */}
+        <div class="flex-row-container label-bg">
+          <h3>ID</h3>
+          <h3>RESPONSÁVEL</h3>
+          <h3>DATA ABERTURA</h3>
+          <h3>STATUS</h3>
+          <h3>GERENCIAR</h3>
         </div>
         {cases ? (filteredCases ? displayFilteredCases : allCases) : null}
       </div>
-    </div>
+      </div>
+    </>
   );
 }
 

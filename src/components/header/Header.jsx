@@ -1,17 +1,13 @@
-import './HeaderStyle.css'
-import logo from '../../assets/imgs/Logo-forenSeek.jpg';
+import "./HeaderStyle.css";
+import logo from "../../assets/imgs/ForenSeek2 1.png";
 
 const Header = () => {
   return (
-    <>
+    <header>
       <section>
-        <img
-          src={logo}
-          alt="Logo do aplicativo ForenSeek"
-        />
-        <p>Opções</p>
+        <img src={logo} alt="Logo do aplicativo ForenSeek" />
       </section>
-    </>
+    </header>
   );
 };
 
