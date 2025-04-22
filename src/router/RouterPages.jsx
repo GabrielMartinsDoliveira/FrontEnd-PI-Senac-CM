@@ -3,15 +3,24 @@ import Cases from "../pages/cases/Cases";
 import DetailsCases from "../pages/detailsCase/DetailsCase";
 import Home from "../pages/home/Home";
 import RegisterCase from "../pages/registerCase/RegisterCase";
+import Login from "../pages/login/Login";
+import ProtectedRoute from "../components/protectedRoute/ProtectedRoute";
+import RegisterUser from "../pages/registerUser/RegisterUser";
+import RegisterEvidence from "../pages/ragisterEvidences/RegisterEvidence";
 
 export const RouterPages = () => {
   return (
     <BrowserRouter>
       <Routes>
-        <Route index element={<Home />} />
-        <Route path={"/casos"} element={<Cases />} />
-        <Route path={"/caso/:id"} element={<DetailsCases />} />
-        <Route path={"/cadastrar-caso"} element={<RegisterCase />} />
+        <Route index element={<Login />} />
+        <Route element={<ProtectedRoute />}>
+          <Route path={"/home"} element={<Home />} />
+          <Route path={"/casos"} element={<Cases />} />
+          <Route path={"/caso/:id"} element={<DetailsCases />} />
+          <Route path={"/cadastrar-caso"} element={<RegisterCase />} />
+          <Route path={"/cadastrar-usuario"} element={<RegisterUser />} />
+          <Route path={"/cadastrar-evidencia/:idCaso"} element={<RegisterEvidence />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

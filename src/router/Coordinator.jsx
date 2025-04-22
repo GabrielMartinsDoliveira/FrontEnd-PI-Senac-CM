@@ -1,24 +1,35 @@
 export const goToHome = (navigate) => {
-    navigate('/');
-}
+  navigate("/home");
+};
 
 export const goToLogin = (navigate) => {
-    navigate('/login');
-}
+  navigate("/");
+};
 
 export const goToSignUp = (navigate) => {
-    navigate('/registrar');
-}
+  navigate("/registrar-usuario");
+};
 
 export const goToCases = (navigate) => {
-    navigate('/casos');
-}
+  navigate("/casos");
+};
 
-export const goToCase = (navigate, id) => {
-    console.log('URL gerada:', `/caso/${id}`)
-    navigate(`/caso/${id}`);
-}
+export const goToCaseDetails = (navigate, id) => {
+  navigate(`/caso/${id}`);
+};
 
 export const goToRegisterCase = (navigate) => {
-    navigate('/cadastrar-caso');
+  navigate("/cadastrar-caso");
+};
+
+export const goToEvidence = (navigate, id) =>{
+    navigate(`/evidencia/${id}`)
+}
+
+export const goToRegisterEvidence = (navigate, caseId) =>{
+  navigate(`/cadastrar-evidencia/${caseId}`)
+}
+
+export const goToLaudo = (navigate) =>{
+  navigate("/laudo")
 }

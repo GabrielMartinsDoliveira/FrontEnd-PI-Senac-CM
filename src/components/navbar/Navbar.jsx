@@ -23,6 +23,11 @@ const Navbar = () => {
   const handleDashBoard = () =>{
     goToHome(navigate)
   }
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('userId');
+    navigate('/');
+  };
 
   return (
     <nav>
@@ -65,7 +70,7 @@ const Navbar = () => {
         </div>
       </div>
       <div>
-        <div>
+        <div onClick={()=> handleLogout()}>
           <BiLogOut />
           <p>SAIR</p>
         </div>

@@ -3,12 +3,12 @@ import Header from "../../components/header/Header";
 import Navbar from "../../components/navbar/Navbar";
 import "./RegisterCaseStyled.css";
 import axios from "axios";
-import { CasePOST, UserByIdGET } from "../../api/PathsApi";
+import { CasePOST, HeaderReq, UserByIdGET } from "../../api/PathsApi";
 import { useEffect, useState } from "react";
+import { token, userId } from "../../utils/Constants";
 
 const RegisterCase = () => {
   const [userCase, setUserCase] = useState(null);
-  const userIdMock = '67fdc9b6f73bf8431a3d0592';
 
   const {
     register,
@@ -19,35 +19,39 @@ const RegisterCase = () => {
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(CasePOST, data);
+      const response = await axios.post(CasePOST, data, {
+        headers: HeaderReq(token),
+      });
       console.log(`Caso Criado com sucesso ${response.data}`);
     } catch (error) {
-      console.error('Erro ao criar caso:', error);
+      console.error("Erro ao criar caso:", error);
     }
   };
 
   const getUserCase = async () => {
     try {
-      const response = await axios.get(`${UserByIdGET}/${userIdMock}`);
+      const response = await axios.get(`${UserByIdGET}/${userId}`, {
+        headers: HeaderReq(token),
+      });
+      console.log(response.data)
       setUserCase(response.data);
-      setValue('responsavel', response.data._id); // Preenche o valor do campo
+      setValue("responsavel", response.data._id);
     } catch (error) {
-      console.error('Erro ao achar o usuário:', error);
+      console.error("Erro ao achar o usuário:", error);
     }
   };
 
   useEffect(() => {
     getUserCase();
 
-    // Preenche a data de abertura automaticamente
-    const hoje = new Date().toISOString().split('T')[0];
-    setValue('dataAbertura', hoje);
-  }, [setValue]);
+    const hoje = new Date().toISOString().split("T")[0];
+    setValue("dataAbertura", hoje);
+  }, [setValue, userId]);
 
   return (
     <>
-    <Header/>
-    <Navbar/>
+      <Header />
+      <Navbar />
       <div id="form-container">
         <h1 id="form-title">Criar Novo Caso</h1>
 
@@ -57,11 +61,11 @@ const RegisterCase = () => {
             <select
               id="responsavel"
               disabled
-              {...register('responsavel', { required: true })}
+              {...register("responsavel", { required: true })}
             >
               {userCase ? (
                 <option value={userCase._id}>
-                  {userCase.nome || 'Usuário'}
+                  {userCase.nome || "Usuário"}
                 </option>
               ) : (
                 <option value="">Carregando responsável...</option>
@@ -72,7 +76,7 @@ const RegisterCase = () => {
 
           <div>
             <label htmlFor="status">Status</label>
-            <select id="status" {...register('status', { required: true })}>
+            <select id="status" {...register("status", { required: true })}>
               <option value="">Selecione um Status</option>
               <option value="Em andamento">Em andamento</option>
               <option value="Finalizado">Finalizado</option>
@@ -86,7 +90,7 @@ const RegisterCase = () => {
             <input
               type="text"
               id="titulo"
-              {...register('titulo', { required: 'Título é obrigatório' })}
+              {...register("titulo", { required: "Título é obrigatório" })}
             />
             {errors.titulo && <p>{errors.titulo.message}</p>}
           </div>
@@ -97,7 +101,15 @@ const RegisterCase = () => {
               type="date"
               id="dataAbertura"
               readOnly
-              {...register('dataAbertura', { required: true })}
+              {...register("dataAbertura", { required: true })}
+            />
+          </div>
+          <div>
+            <label htmlFor="dataOcorrencia">Data Ocorrencia</label>
+            <input
+              type="date"
+              id="dataOcorrencia"              
+              {...register("dataOcorrencia", { required: true })}
             />
           </div>
 
@@ -107,29 +119,23 @@ const RegisterCase = () => {
               type="date"
               id="dataFechamento"
               disabled
-              {...register('dataFechamento')}
+              {...register("dataFechamento")}
             />
-          </div>
-
-          <div id="evidence-button-container">
-            <button id="evidence-button" type="button">
-              Cadastrar Evidência
-            </button>
           </div>
 
           <div id="description-container">
             <label htmlFor="descricao">Descrição</label>
             <textarea
               id="descricao"
-              {...register('descricao', {
-                required: 'Descrição é obrigatória',
+              {...register("descricao", {
+                required: "Descrição é obrigatória",
               })}
             />
             {errors.descricao && <p>{errors.descricao.message}</p>}
           </div>
 
           <button id="submit-button" type="submit" disabled={isSubmitting}>
-            {isSubmitting ? 'Enviando...' : 'Criar Caso'}
+            {isSubmitting ? "Enviando..." : "Criar Caso"}
           </button>
         </form>
       </div>

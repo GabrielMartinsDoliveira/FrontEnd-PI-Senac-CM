@@ -2,10 +2,11 @@ import { Link, useNavigate } from "react-router-dom";
 import Navbar from "../../components/navbar/Navbar";
 import Header from "../../components/header/Header";
 import { useEffect, useState } from "react";
-import { CasesGET } from "../../api/PathsApi";
-import { goToCase } from "../../router/Coordinator";
+import { CasesGET, HeaderReq } from "../../api/PathsApi";
+import { goToCaseDetails } from "../../router/Coordinator";
 import { RiEditFill, RiDeleteBin6Fill } from "react-icons/ri";
-import './CaseStyled.css'
+import "./CaseStyled.css";
+import axios from "axios";
 
 function Cases() {
   const navigate = useNavigate();
@@ -13,20 +14,20 @@ function Cases() {
   const [responsibleFilter, setResponsibleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   // const [dateFilter, setDateFilter] = useState("");
+  const token = localStorage.getItem("token");
 
   const getCases = async () => {
     try {
-      const response = await fetch(`${CasesGET}`);
-      const data = await response.json();
-      setCases(data);
+      const response = await axios(`${CasesGET}`, { headers: HeaderReq(token) });      
+      setCases(response.data);
     } catch (error) {
-      console.log(error.data.message);
+      console.log(error.message);
     }
   };
 
   const handleGoToCase = (id) => {
     console.log("ID antes da navegação:", id, "Tipo:", typeof id);
-    goToCase(navigate, id);
+    goToCaseDetails(navigate, id);
   };
 
   useEffect(() => {
@@ -50,7 +51,7 @@ function Cases() {
     ));
 
   const filteredCases =
-    cases &&
+    Array.isArray(cases) &&
     cases.filter((item) => {
       const matchesResponsible = item.responsavel.nome
         .toLowerCase()
@@ -84,9 +85,8 @@ function Cases() {
       <Header />
       <Navbar />
       <div id="case-page-container">
-
-      <div class="filters">
-        {/* <div class="filter-group">
+        <div >
+          {/* <div class="filter-group">
           <label htmlFor="responsibleFilter">Filtrar por Responsavel:</label>
           <input
             id="responsibleFilter"
@@ -110,15 +110,15 @@ function Cases() {
             ))}
           </select>
         </div> */}
-        <div class="flex-row-container label-bg">
-          <h3>ID</h3>
-          <h3>RESPONSÁVEL</h3>
-          <h3>DATA ABERTURA</h3>
-          <h3>STATUS</h3>
-          <h3>GERENCIAR</h3>
+          <div class="flex-row-container label-bg">
+            <h3>ID</h3>
+            <h3>RESPONSÁVEL</h3>
+            <h3>DATA ABERTURA</h3>
+            <h3>STATUS</h3>
+            <h3>GERENCIAR</h3>
+          </div>
+          {cases ? (filteredCases ? displayFilteredCases : allCases) : null}
         </div>
-        {cases ? (filteredCases ? displayFilteredCases : allCases) : null}
-      </div>
       </div>
     </>
   );
