@@ -1,10 +1,8 @@
-import { Link, useNavigate } from "react-router-dom";
-import Navbar from "../../components/navbar/Navbar";
-import Header from "../../components/header/Header";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { CasesGET, HeaderReq } from "../../api/PathsApi";
 import { goToCaseDetails } from "../../router/Coordinator";
-import { RiEditFill, RiDeleteBin6Fill } from "react-icons/ri";
+import { RiEditFill } from "react-icons/ri";
 import "./CaseStyled.css";
 import axios from "axios";
 
@@ -13,114 +11,137 @@ function Cases() {
   const [cases, setCases] = useState([]);
   const [responsibleFilter, setResponsibleFilter] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
-  // const [dateFilter, setDateFilter] = useState("");
+  const [dateFilter, setDateFilter] = useState("");
+  const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
 
   const getCases = async () => {
     try {
-      const response = await axios(`${CasesGET}`, { headers: HeaderReq(token) });      
+      const response = await axios(CasesGET, {
+        headers: HeaderReq(token),
+      });
       setCases(response.data);
     } catch (error) {
-      console.log(error.message);
+      console.error("Erro ao buscar casos:", error.message);
+    } finally {
+      setIsLoading(false);
     }
   };
 
   const handleGoToCase = (id) => {
-    console.log("ID antes da navegação:", id, "Tipo:", typeof id);
     goToCaseDetails(navigate, id);
   };
 
   useEffect(() => {
-    console.log(cases);
     getCases();
   }, []);
 
-  const allCases =
-    Array.isArray(cases) &&
-    cases.map((caso) => (
-      <div class="flex-row-container cases-container" key={caso?._id}>
-        <p>{cases.indexOf(caso) + 1}</p>
-        <p> {caso.responsavel.nome}</p>
-        <p> {caso.dataAbertura}</p>
-        <p> {caso.status}</p>
-        <div class="flex-row-container icons-config">
-          <RiEditFill onClick={() => handleGoToCase(caso._id)} />
-          <RiDeleteBin6Fill />
-        </div>
-      </div>
-    ));
+  const filteredCases = cases.filter((item) => {
+    const matchesResponsible = item.responsavel.nome
+      .toLowerCase()
+      .includes(responsibleFilter.toLowerCase());
 
-  const filteredCases =
-    Array.isArray(cases) &&
-    cases.filter((item) => {
-      const matchesResponsible = item.responsavel.nome
-        .toLowerCase()
-        .includes(responsibleFilter.toLowerCase());
+    const matchesStatus =
+      statusFilter === "all" || item.status === statusFilter;
 
-      const matchesStatus =
-        statusFilter === "all" || item.status === statusFilter;
+    const matchesDate = !dateFilter || 
+      new Date(item.dataAbertura).toISOString().split('T')[0] === dateFilter;
 
-      return matchesResponsible && matchesStatus;
-    });
+    return matchesResponsible && matchesStatus && matchesDate;
+  });
 
-  console.log(filteredCases);
+  const handleDateFilterChange = (e) => {
+    setDateFilter(e.target.value);
+  };
 
-  const displayFilteredCases =
-    Array.isArray(filteredCases) &&
-    filteredCases.map((caso) => (
-      <div class="flex-row-container cases-container" key={caso?._id}>
-        <p>{filteredCases.indexOf(caso) + 1}</p>
-        <p> {caso.responsavel.nome}</p>
-        <p> {caso.dataAbertura}</p>
-        <p> {caso.status}</p>
-        <div class="flex-row-container icons-config">
-          <RiEditFill onClick={() => handleGoToCase(caso._id)} />
-          <RiDeleteBin6Fill />
-        </div>
-      </div>
-    ));
+  const clearDateFilter = () => {
+    setDateFilter("");
+  };
 
   return (
-    <>
-      <Header />
-      <Navbar />
-      <div id="case-page-container">
-        <div >
-          {/* <div class="filter-group">
-          <label htmlFor="responsibleFilter">Filtrar por Responsavel:</label>
+    <div id="case-page-container">
+      <h2>Casos</h2>
+      <div className="filters-container">
+        <div className="filter-group">
           <input
-            id="responsibleFilter"
             type="text"
             value={responsibleFilter}
             onChange={(e) => setResponsibleFilter(e.target.value)}
-            placeholder="Digite o responsavel pelo caso"
+            placeholder="Filtrar por responsável"
+            className="filter-input"
           />
         </div>
-
-        <div class="filter-group">
-          <label htmlFor="statusFilter">Filtrar por Status:</label>
+        
+        <div className="filter-group">
           <select
-            id="statusFilter"
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
+            className="filter-select"
           >
-            <option value="all">Status</option>
-            {filteredCases.map((caso) => (
-              <option value={caso.status}>{caso.status}</option>
-            ))}
+            <option value="all">Todos status</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Finalizado">Finalizado</option>
+            <option value="Arquivado">Arquivado</option>
           </select>
-        </div> */}
-          <div class="flex-row-container label-bg">
-            <h3>ID</h3>
-            <h3>RESPONSÁVEL</h3>
-            <h3>DATA ABERTURA</h3>
-            <h3>STATUS</h3>
-            <h3>GERENCIAR</h3>
-          </div>
-          {cases ? (filteredCases ? displayFilteredCases : allCases) : null}
+        </div>
+
+        <div className="filter-group date-filter-group">
+          <input
+            type="date"
+            value={dateFilter}
+            onChange={handleDateFilterChange}
+            className="filter-input"
+          />
+          {dateFilter && (
+            <button 
+              onClick={clearDateFilter}
+              className="clear-date-filter"
+              title="Limpar filtro de data"
+            >
+              ×
+            </button>
+          )}
         </div>
       </div>
-    </>
+
+      <div className="table-container">
+        <div className="table-header flex-row-container">
+          <div className="header-cell">ID</div>
+          <div className="header-cell">RESPONSÁVEL</div>
+          <div className="header-cell">DATA ABERTURA</div>
+          <div className="header-cell">STATUS</div>
+          <div className="header-cell">AÇÕES</div>
+        </div>
+
+        {isLoading ? (
+          <div className="loading-message">Carregando casos...</div>
+        ) : filteredCases.length === 0 ? (
+          <div className="no-results">Nenhum caso encontrado</div>
+        ) : (
+          filteredCases.map((caso, index) => (
+            <div className="case-row flex-row-container" key={caso._id}>
+              <div className="case-cell">{index + 1}</div>
+              <div className="case-cell">{caso.responsavel.nome}</div>
+              <div className="case-cell">
+                {new Date(caso.dataAbertura).toLocaleDateString("pt-BR")}
+              </div>
+              <div className="case-cell">
+                <span className={`status-badge ${caso.status.toLowerCase().replace(" ", "-")}`}>
+                  {caso.status}
+                </span>
+              </div>
+              <div className="case-cell actions-cell">
+                <RiEditFill 
+                  onClick={() => handleGoToCase(caso._id)} 
+                  className="edit-icon" 
+                  title="Editar caso"
+                />
+              </div>
+            </div>
+          ))
+        )}
+      </div>
+    </div>
   );
 }
 

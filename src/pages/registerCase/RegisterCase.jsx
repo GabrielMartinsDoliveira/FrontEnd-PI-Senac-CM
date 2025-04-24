@@ -1,14 +1,19 @@
 import { useForm } from "react-hook-form";
-import Header from "../../components/header/Header";
-import Navbar from "../../components/navbar/Navbar";
 import "./RegisterCaseStyled.css";
 import axios from "axios";
 import { CasePOST, HeaderReq, UserByIdGET } from "../../api/PathsApi";
 import { useEffect, useState } from "react";
-import { token, userId } from "../../utils/Constants";
+import { useNavigate } from "react-router-dom";
+import { goToCases } from "../../router/Coordinator";
+import PopUpConfirm from "../../components/popupconfirm/PopUpConfirm";
 
 const RegisterCase = () => {
   const [userCase, setUserCase] = useState(null);
+  const token = localStorage.getItem("token");
+  const userId = localStorage.getItem("userId");
+  const [showPopup, setShowPopup] = useState(false);
+  const [popupTimeout, setPopupTimeout] = useState(null);
+  const navigate = useNavigate();
 
   const {
     register,
@@ -17,12 +22,26 @@ const RegisterCase = () => {
     formState: { errors, isSubmitting },
   } = useForm();
 
+  const handleClosePopup = () => {
+    if (popupTimeout) {
+      clearTimeout(popupTimeout);
+    }
+    setShowPopup(false);
+    goToCases(navigate);
+  };
+
   const onSubmit = async (data) => {
     try {
       const response = await axios.post(CasePOST, data, {
         headers: HeaderReq(token),
       });
       console.log(`Caso Criado com sucesso ${response.data}`);
+      setShowPopup(true);
+
+      const timeout = setTimeout(() => {
+        handleClosePopup();
+      }, 3000);
+      setPopupTimeout(timeout);
     } catch (error) {
       console.error("Erro ao criar caso:", error);
     }
@@ -33,7 +52,7 @@ const RegisterCase = () => {
       const response = await axios.get(`${UserByIdGET}/${userId}`, {
         headers: HeaderReq(token),
       });
-      console.log(response.data)
+      console.log(response.data);
       setUserCase(response.data);
       setValue("responsavel", response.data._id);
     } catch (error) {
@@ -43,15 +62,18 @@ const RegisterCase = () => {
 
   useEffect(() => {
     getUserCase();
-
     const hoje = new Date().toISOString().split("T")[0];
     setValue("dataAbertura", hoje);
+
+    return () => {
+      if (popupTimeout) {
+        clearTimeout(popupTimeout);
+      }
+    };
   }, [setValue, userId]);
 
   return (
     <>
-      <Header />
-      <Navbar />
       <div id="form-container">
         <h1 id="form-title">Criar Novo Caso</h1>
 
@@ -108,7 +130,7 @@ const RegisterCase = () => {
             <label htmlFor="dataOcorrencia">Data Ocorrencia</label>
             <input
               type="date"
-              id="dataOcorrencia"              
+              id="dataOcorrencia"
               {...register("dataOcorrencia", { required: true })}
             />
           </div>
@@ -138,6 +160,26 @@ const RegisterCase = () => {
             {isSubmitting ? "Enviando..." : "Criar Caso"}
           </button>
         </form>
+        {showPopup && (
+          <div className="popup-overlay">
+            <PopUpConfirm entityName="Caso" />
+            <button
+              onClick={handleClosePopup}
+              className="popup-close-button"
+              style={{
+                position: "fixed",
+                top: "20vh",
+                right: "20vw",
+                background: "transparent",
+                border: "none",
+                fontSize: "1.5rem",
+                cursor: "pointer",
+              }}
+            >
+              ×
+            </button>
+          </div>
+        )}
       </div>
     </>
   );

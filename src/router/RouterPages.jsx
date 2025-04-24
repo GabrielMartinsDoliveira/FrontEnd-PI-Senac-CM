@@ -7,21 +7,30 @@ import Login from "../pages/login/Login";
 import ProtectedRoute from "../components/protectedRoute/ProtectedRoute";
 import RegisterUser from "../pages/registerUser/RegisterUser";
 import RegisterEvidence from "../pages/ragisterEvidences/RegisterEvidence";
+import DetailsEvidence from "../pages/detailsEvidence/DetailsEvidence";
+import Laudo from "../pages/laudo/Laudo";
+import Report from "../pages/report/Report";
+import UpdateUser from "../pages/updateUser/UpdateUser";
 
 export const RouterPages = () => {
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route index element={<Login />} />
-        <Route element={<ProtectedRoute />}>
-          <Route path={"/home"} element={<Home />} />
-          <Route path={"/casos"} element={<Cases />} />
-          <Route path={"/caso/:id"} element={<DetailsCases />} />
-          <Route path={"/cadastrar-caso"} element={<RegisterCase />} />
-          <Route path={"/cadastrar-usuario"} element={<RegisterUser />} />
-          <Route path={"/cadastrar-evidencia/:idCaso"} element={<RegisterEvidence />} />
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <Routes>
+      <Route index element={<Login />} />
+      <Route element={<ProtectedRoute redirectPath="/" />}>
+        <Route path={"/home"} element={<Home />} />
+        <Route path={"/casos"} element={<Cases />} />
+        <Route path={"/caso/:id"} element={<DetailsCases />} />
+        <Route path={"/cadastrar-caso"} element={<RegisterCase />} />
+        <Route
+          path={"/cadastrar-evidencia/:idCaso"}
+          element={<RegisterEvidence />}
+        />
+        <Route path={"/gerar-relatorio/:idCaso"} element={<Report />} />
+        <Route path={"/cadastrar-usuario"} element={<RegisterUser />} />
+        <Route path={"/atualizar-usuario/:idUsuario"} element={<UpdateUser />} />
+        <Route path={"/evidencia/:idEvidencia"} element={<DetailsEvidence />} />
+        <Route path={"/gerar-laudo/:idEvidencia"} element={<Laudo />} />
+      </Route>
+    </Routes>
   );
 };

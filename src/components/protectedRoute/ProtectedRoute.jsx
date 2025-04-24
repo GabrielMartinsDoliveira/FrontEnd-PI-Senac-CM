@@ -1,15 +1,13 @@
-import { Outlet, useNavigate } from "react-router-dom";
-import { goToLogin } from "../../router/Coordinator";
+import { Outlet, Navigate } from "react-router-dom";
 
-const ProtectedRoute = ({ redirectPath = "/", children }) => {
+const ProtectedRoute = ({ redirectPath = "/" }) => {
   const token = localStorage.getItem("token");
-  const navigate = useNavigate()
 
   if (!token) {
-    goToLogin(navigate)
+    return <Navigate to={redirectPath} replace />;
   }
 
-  return children ? children : <Outlet />;
+  return <Outlet />;
 };
 
 export default ProtectedRoute;

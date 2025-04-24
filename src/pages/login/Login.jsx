@@ -3,7 +3,8 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { LoginPOST } from "../../api/PathsApi";
-import "./Login.css"
+import "./Login.css";
+import { goToHome } from "../../router/Coordinator";
 
 const Login = () => {
   const {
@@ -11,9 +12,14 @@ const Login = () => {
     handleSubmit,
     formState: { errors, isSubmitting },
     setError: setFormError,
-    clearErrors
+    clearErrors,
   } = useForm();
   const navigate = useNavigate();
+  const token = localStorage.getItem("token");
+
+  if (token) {
+    goToHome(navigate);
+  }
 
   const onSubmit = async (data) => {
     try {
@@ -45,74 +51,72 @@ const Login = () => {
   };
 
   return (
-    <div className="login-container">
-      <div className="login-box">
-        <h2 className="login-title">Faça login em sua conta</h2>
+    <div className="login-overlay">
+      <div className="login-container">
+        <div className="login-box">
+          <h2 className="login-title">Faça login em sua conta</h2>
 
-        {errors.root && (
-          <div className="error-message" role="alert">
-            {errors.root.message}
-          </div>
-        )}
+          {errors.root && (
+            <div className="login-error-message" role="alert">
+              {errors.root.message}
+            </div>
+          )}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="login-form">
-          <div className="form-group">
-            <label htmlFor="matricula">Matrícula</label>
-            <input
-              id="matricula"
-              type="text"
-              placeholder="Digite sua matrícula"
-              {...register("matricula", {
-                required: "Matrícula é obrigatória",
-              })}
-              className={errors.matricula ? "input-error" : ""}
-            />
-            {errors.matricula && (
-              <span className="error-text">{errors.matricula.message}</span>
-            )}
-          </div>
+          <form onSubmit={handleSubmit(onSubmit)} className="login-form">
+            <div className="form-group">
+              <label htmlFor="matricula">Matrícula</label>
+              <input
+                id="matricula"
+                type="text"
+                placeholder="Digite sua matrícula"
+                {...register("matricula", {
+                  required: "Matrícula é obrigatória",
+                })}
+                className={`login-input ${
+                  errors.matricula ? "input-error" : ""
+                }`}
+              />
+              {errors.matricula && (
+                <span className="error-text">{errors.matricula.message}</span>
+              )}
+            </div>
 
-          <div className="form-group">
-            <label htmlFor="senha">Senha</label>
-            <input
-              id="senha"
-              type="password"
-              placeholder="Digite sua senha"
-              {...register("senha", {
-                required: "Senha é obrigatória",
-                minLength: {
-                  value: 6,
-                  message: "Senha deve ter pelo menos 6 caracteres",
-                },
-              })}
-              className={errors.senha ? "input-error" : ""}
-            />
-            {errors.senha && (
-              <span className="error-text">{errors.senha.message}</span>
-            )}
-          </div>
+            <div className="form-group">
+              <label htmlFor="senha">Senha</label>
+              <input
+                id="senha"
+                type="password"
+                placeholder="Digite sua senha"
+                {...register("senha", {
+                  required: "Senha é obrigatória",
+                  minLength: {
+                    value: 6,
+                    message: "Senha deve ter pelo menos 6 caracteres",
+                  },
+                })}
+                className={`login-input ${errors.senha ? "input-error" : ""}`}
+              />
+              {errors.senha && (
+                <span className="error-text">{errors.senha.message}</span>
+              )}
+            </div>
 
-          {/* <div className="form-options">
-            <a href="#" className="forgot-password">
-              Esqueceu sua senha?
-            </a>
-          </div> */}
-
-          <button
-            type="submit"
-            className="login-button"
-            disabled={isSubmitting}
-          >
-            {isSubmitting ? (
-              <>
-                <span className="spinner"></span>
-                Processando...
-              </>
-            ) : (
-              "Entrar"
-            )}
-          </button>
-        </form>
+            <button
+              type="submit"
+              className="login-button"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <span className="spinner"></span>
+                  Processando...
+                </>
+              ) : (
+                "Entrar"
+              )}
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   );

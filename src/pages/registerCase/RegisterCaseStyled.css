@@ -1,25 +1,25 @@
 #form-container {
-  position: fixed;
+  position: absolute;
   top: 12vh;
   left: 12vw;
-  width: 83vw;
+  width: 84vw;
+  /* min-width: 60vw;
+  max-width: 70vw; */
   height: 80vh;
   background-color: #dee1eb;
-  /* margin: 0 0 0 0; */
-  padding: 2rem;
   border: 2px solid #0000009d;
   overflow-y: auto;
+  padding: 1rem;
 }
 
 #form-title {
   color: #2c3e50;
-  margin-bottom: 1.5rem;
   text-align: center;
   font-size: 1.8rem;
 }
 
 #case-form {
-  width: 100%;
+  width: fit-content;
   display: grid;
   grid-template-columns: auto auto auto;
   grid-template-rows: 1fr 1fr;
@@ -33,12 +33,12 @@
   font-weight: 500;
 }
 
-#dataFechamento,
+/* #dataFechamento,
 #dataAbertura {
   display: none;
-}
-
-#responsavel,
+} */
+#dataFechamento,
+#dataAbertura #responsavel,
 #status,
 #titulo,
 #dataOcorrencia {

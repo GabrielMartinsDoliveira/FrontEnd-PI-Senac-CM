@@ -5,33 +5,157 @@
   width: 83vw;
   height: 80vh;
   background-color: #dee1eb;
-  /* margin: 0 0 0 0; */
-  padding: 2rem;
-  border: 2px solid #0000009d;
+  padding: 1rem;
   overflow-y: auto;
+  border: 2px solid #0000009d;
+}
+
+.filters-container {
+  display: flex;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+  padding: 0.5rem;
+  background-color: #e9ecef;
+  border-radius: 4px;
+}
+
+.filter-group {
+  flex: 1;
+  max-width: 300px;
+}
+
+.filter-input,
+.filter-select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+  font-size: 0.9rem;
+}
+
+.table-container {
+  background-color: white;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
+
+.table-header {
+  background-color: #05253e;
+  color: white;
+  padding: 1rem;
+  font-weight: bold;
+}
+
+.header-cell,
+.case-cell {
+  flex: 1;
+  padding: 0.5rem 1rem;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header-cell:nth-child(1),
+.case-cell:nth-child(1) {
+  flex: 0.5;
+}
+.header-cell:nth-child(4),
+.case-cell:nth-child(4) {
+  flex: 0.8;
+}
+.header-cell:nth-child(5),
+.case-cell:nth-child(5) {
+  flex: 0.5;
+}
+
+.case-row {
+  padding: 0.8rem 1rem;
+  border-bottom: 1px solid #e9ecef;
+  align-items: center;
+}
+
+.case-row:hover {
+  background-color: #f8f9fa;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 0.25rem 0.5rem;
+  border-radius: 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.status-badge.em-andamento {
+  background-color: #fff3cd;
+  color: #856404;
+}
+
+.status-badge.finalizado {
+  background-color: #d4edda;
+  color: #155724;
+}
+
+.status-badge.arquivado {
+  background-color: #e2e3e5;
+  color: #383d41;
+}
+
+.actions-cell {
+  display: flex;
+  justify-content: center;
+}
+
+.edit-icon {
+  color: #05253e;
+  font-size: 1.2rem;
+  cursor: pointer;
+  transition: color 0.2s;
+}
+
+.edit-icon:hover {
+  color: #0d6efd;
+}
+
+.loading-message,
+.no-results {
+  padding: 2rem;
+  text-align: center;
+  color: #6c757d;
 }
 
 .flex-row-container {
   display: flex;
-  flex-direction: row;
-  justify-content: space-evenly;
 }
 
-.label-bg {
-  background-color: white;
-  color: #05253E;
+.date-filter-group {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
-.cases-container {
-  background-color:white;
-  padding: 0.5rem 0;
-  margin: 1rem 0;
-  
+.clear-date-filter {
+  position: absolute;
+  right: 8px;
+  background: none;
+  border: none;
+  color: #6c757d;
+  cursor: pointer;
+  font-size: 1.2rem;
+  padding: 0 0.5rem;
 }
 
-.icons-config {
-  font-size: 24px;
-  color: #333;
-  padding-top: 1rem;
-  gap: 1rem;
+.clear-date-filter:hover {
+  color: #dc3545;
+}
+
+.filter-input[type="date"] {
+  padding-right: 30px;
+}
+
+.filter-input[type="date"]::-webkit-calendar-picker-indicator {
+  opacity: 1;
+  padding-right: 5px;
 }

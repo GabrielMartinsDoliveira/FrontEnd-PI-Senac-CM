@@ -30,6 +30,10 @@ export const goToRegisterEvidence = (navigate, caseId) =>{
   navigate(`/cadastrar-evidencia/${caseId}`)
 }
 
-export const goToLaudo = (navigate) =>{
-  navigate("/laudo")
+export const goToLaudo = (navigate, idEvidencia) =>{
+  navigate(`/gerar-laudo/${idEvidencia}`)
+}
+
+export const goToReport = (navigate, caseId) =>{
+  navigate(`/gerar-relatorio/${caseId}`)
 }

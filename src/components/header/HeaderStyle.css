@@ -9,7 +9,7 @@ header {
     align-items: center;
     padding: 0 20px;
     box-shadow: 0 2px 5px white;
-    z-index: 99; /* Um nível abaixo do navbar */
+    z-index: 99; 
   }
   
   header section {
@@ -19,8 +19,8 @@ header {
   }
   
   header img {
-    height: 60px; /* Altura controlada para a logo */
-    width: auto; /* Mantém proporção */
-    max-width: 180px; /* Limite máximo de largura */
+    height: 62px; 
+    width: auto; 
+    max-width: 180px; 
     object-fit: contain;
   }

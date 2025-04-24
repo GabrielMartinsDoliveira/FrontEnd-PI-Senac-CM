@@ -16,6 +16,8 @@ export const UserByIdGET = `${apiUrl}/user`;
 
 export const EvidencesGET = `${apiUrl}/evidence`;
 
+export const EvidenceDetailsGET = `${apiUrl}/evidence`;
+
 export const EvidencePUT = `${apiUrl}/evidence`;
 
 export const EvidencePOST = `${apiUrl}/evidence`;
@@ -23,6 +25,10 @@ export const EvidencePOST = `${apiUrl}/evidence`;
 export const LoginPOST = `${apiUrl}/login`;
 
 export const UserPUT = `${apiUrl}/user`;
+
+export const LaudoPOST = `${apiUrl}/laudo`;
+
+export const LaudoGET = `${apiUrl}/laudo`;
 
 export const HeaderReq = (token) => {
   const header = {

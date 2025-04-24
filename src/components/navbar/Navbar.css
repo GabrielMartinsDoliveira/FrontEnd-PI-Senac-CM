@@ -1,4 +1,4 @@
-nav {
+/* /* nav {
   position: fixed;
   left: 0;
   top: 12vh;
@@ -12,7 +12,7 @@ nav {
   box-shadow: 2px 0 5px white;
   z-index: 100;
   border: none;
-}
+} */
 
 nav > div {
   width: 100%;
@@ -28,13 +28,13 @@ nav > div:hover {
   background-color: #f0f0f0;
 }
 
-nav > div > div {
+/* nav > div > div {
   display: flex;
   flex-direction: row;
   align-items: center;
   gap: 12px;
   padding: 0 16px;
-}
+} */
 
 nav svg {
   font-size: 24px;
@@ -57,7 +57,7 @@ nav li {
 }
 
 nav ul {
-  padding: 10px 0;
+  padding: 0 0;
   text-align: center;
   font-size: 16px;
   color: #333;
@@ -68,7 +68,7 @@ nav a {
   text-decoration: none;
 }
 
-nav ul:hover {
+/* nav ul:hover {
   background-color: #e0e0e0;
 }
 
@@ -76,13 +76,13 @@ nav > div.active {
   background-color: #05253E;
   object-fit: contain;
   height:min-content;
-}
+} */
 
-nav > div.active svg,
+/* nav > div.active svg,
 nav > div.active p {
   color: white;
-}
+} */
 
-nav > div.active:hover {
+/* nav > div.active:hover {
   background-color: #05253E;
-}
+}  */

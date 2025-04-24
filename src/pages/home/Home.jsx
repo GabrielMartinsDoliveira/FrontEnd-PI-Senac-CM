@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import { CasesGET, HeaderReq } from "../../api/PathsApi";
-import Header from "../../components/header/Header";
-import Navbar from "../../components/navbar/Navbar";
 import { goToCaseDetails } from "../../router/Coordinator";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -17,7 +15,6 @@ const Home = () => {
       });
 
       setCases(response.data);
-      console.log("API DATA:", response.data);
     } catch (error) {
       console.log(error.data.message);
     }
@@ -41,17 +38,12 @@ const Home = () => {
       </div>
     ));
 
-  console.log(cases);
-  console.log(recentCases);
-
   useEffect(() => {
     getCases();
   }, []);
 
   return (
     <>
-      <Header />
-      <Navbar />
       <div>
         <h3>Resumo Estatísticas:</h3>
       </div>
