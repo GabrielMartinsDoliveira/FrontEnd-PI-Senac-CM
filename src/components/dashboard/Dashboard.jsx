@@ -45,7 +45,7 @@ export default function Dashboard() {
         console.error("Erro ao buscar casos:", error);
         setLoading(false);
       });
-  }, []);
+  }, [token]);
 
   const filteredCases = selectedResponsavel
     ? cases.filter(
