@@ -1,70 +1,68 @@
-# Getting Started with Create React App
+FrontEnd PI - Senac
+Este repositório contém o código-fonte do front-end desenvolvido para o Projeto Integrador do curso de Coding Mobile do Senac.
+O projeto foi desenvolvido utilizando React e Bootstrap para criação de uma interface de usuário moderna, responsiva e funcional.
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+📚 Tecnologias Utilizadas
+•	- React — Biblioteca JavaScript para construção de interfaces de usuário
+•	- Create React App — Ferramenta para inicializar e configurar projetos React
+•	- Bootstrap — Framework de CSS para design responsivo
+•	- JavaScript (ES6+) — Linguagem de programação principal
+•	- HTML5 — Estruturação das páginas web
+•	- CSS3 — Estilização das páginas web
 
-## Available Scripts
+🛠️ Estrutura de Pastas
+FrontEnd-PI-Senac-CM/
+│
+├── public/             # Arquivos estáticos públicos (favicon, index.html)
+├── src/                # Código-fonte da aplicação
+│   ├── components/     # Componentes React reutilizáveis
+│   ├── assets/         # Itens estáticos
+│   ├── pages/          # Páginas principais da aplicação
+│   ├── router/         # Arquivos relativos as rotas
+│   ├── utils/          # Arquivos relativos a aplicações gerais e recorrentes
+│   ├── Api/            # Lógica de comunicação com a API
+│   ├── App.js          # Componente raiz da aplicação
+│   └── index.js        # Ponto de entrada do React
+├── package.json        # Gerenciamento de dependências e scripts
+└── .gitignore          # Arquivos ignorados pelo Git
 
-In the project directory, you can run:
+⚙️ Como Rodar o Projeto Localmente
+1. Clone este repositório:
+git clone https://github.com/GabrielMartinsDoliveira/FrontEnd-PI-Senac-CM.git
 
-### `npm start`
+2. Navegue até o diretório do projeto:
+cd FrontEnd-PI-Senac-CM
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+3. Instale as dependências:
+npm install
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+4. Inicie o servidor de desenvolvimento:
+npm start
 
-### `npm test`
+O servidor estará rodando em: https://forenseek.onrender.com/
+Logins para testar funcionalidades:
+Administrador: matrícula - 000.111.222-33, senha - teste0987
+Perito: matrícula - 123.456.789-01, senha - teste1234
+Assistente: matrícula - 222.111.212.31, senha - marconi123
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+🔐 Funcionalidades Principais
+•	- Interface amigável e responsiva com Bootstrap
+•	- Integração com a API do back-end para operações CRUD
+•	- Navegação entre páginas com React Router
+•	- Componentes reutilizáveis e organizados
+•	- Separação de responsabilidades via diretórios distintos (serviços, componentes, páginas)
 
-### `npm run build`
+👥 Colaboradores
+•	- Gabriel Martins (https://github.com/GabrielMartinsDoliveira)
+•	- Mateus Henrique de Assis (https://github.com/MatHenriqueAssis)
+•	- Erick Lopes (https://github.com/erickarte)
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+Este projeto é de uso educacional e acadêmico no contexto do curso de Coding Mobile do Senac.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+🚀 Melhorias Futuras
+•	- Utilização da localização do usuário ao criar certas entidades
+•	- Implementação de testes automatizados com Jest e React Testing Library
+•	- Otimização de performance e SEO
+•	- Melhorias em acessibilidade (A11Y)
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
 
-### `npm run eject`
-
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
-
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
-
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
-
-### Code Splitting
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)

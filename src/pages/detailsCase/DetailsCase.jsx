@@ -141,6 +141,7 @@ function DetailsCase() {
   const handleReturnCases = () => {
     goToCases(navigate);
   };
+  
 
   const displayEvidences = () => (
     <div className="row">

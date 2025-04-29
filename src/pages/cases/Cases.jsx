@@ -15,26 +15,27 @@ function Cases() {
   const [isLoading, setIsLoading] = useState(true);
   const token = localStorage.getItem("token");
 
-  const getCases = async () => {
-    try {
-      const response = await axios(CasesGET, {
-        headers: HeaderReq(token),
-      });
-      setCases(response.data);
-    } catch (error) {
-      console.error("Erro ao buscar casos:", error.message);
-    } finally {
-      setIsLoading(false);
-    }
-  };
-
+  
   const handleGoToCase = (id) => {
     goToCaseDetails(navigate, id);
   };
 
   useEffect(() => {
+    const getCases = async () => {
+      try {
+        const response = await axios(CasesGET, {
+          headers: HeaderReq(token),
+        });
+        setCases(response.data);
+      } catch (error) {
+        console.error("Erro ao buscar casos:", error.message);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+  
     getCases();
-  }, []);
+  });
 
   const filteredCases = cases.filter((item) => {
     const matchesResponsible = item.responsavel.nome
