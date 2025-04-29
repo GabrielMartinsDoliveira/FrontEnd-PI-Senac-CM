@@ -23,7 +23,7 @@ Interface moderna e funcional para gestão forense — desenvolvido no Projeto I
 🔁 React Router — Navegação entre páginas
 
 🔌 Integração com API — Consumo de dados do backend
-
+```
 🛠️ Instalação e Execução
 bash
 Copiar
@@ -39,10 +39,10 @@ npm install
 
 # 4. Inicie o projeto
 npm start
+```
+
+```
 🗂️ Estrutura do Projeto
-plaintext
-Copiar
-Editar
 FrontEnd-PI-Senac-CM/
 ├── public/
 ├── src/
@@ -56,6 +56,8 @@ FrontEnd-PI-Senac-CM/
 │   └── index.js
 ├── package.json
 └── .gitignore
+```
+```
 🔐 Logins de Teste
 plaintext
 Copiar
@@ -71,6 +73,8 @@ Senha: teste1234
 Assistente
 Matrícula: 222.111.212.31
 Senha: marconi123
+```
+```
 ✅ Funcionalidades
 Login com perfis distintos
 
@@ -81,7 +85,8 @@ Design responsivo
 Componentes modulares
 
 Navegação fluida entre páginas
-
+```
+```
 🚧 Melhorias Futuras
 📍 Uso de geolocalização
 
@@ -90,13 +95,15 @@ Navegação fluida entre páginas
 ⚡ Performance e SEO
 
 ♿ Acessibilidade (A11Y)
-
+```
+```
 👨‍💻 Equipe
 
 Nome	GitHub
-Gabriel Martins	-
-Mateus Henrique de Assis	-
-Marconi	@marconi412
+[Gabriel Martins](https://github.com/GabrielMartinsDoliveira)	
+[Bruno](https://github.com/BBRRUUNNOO)
+[Marconi](https://github.com/marconi412)
+```
 📄 Licença
 Este projeto está licenciado sob a licença MIT.
 Feito no curso Coding Mobile do Senac.
