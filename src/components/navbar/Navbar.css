@@ -1,20 +1,23 @@
-/* /* nav {
+.sidebar {
   position: fixed;
-  left: 0;
   top: 12vh;
   bottom: 0;
+  left: 0;
   width: 12vw;
   background-color: white;
   display: flex;
   flex-direction: column;
   align-items: center;
   padding-top: 20px;
-  box-shadow: 2px 0 5px white;
-  z-index: 100;
+  box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2); 
+  z-index: 99;
   border: none;
-} */
+  height: calc(100vh - 12vh); 
+  overflow-y: auto; 
+}
 
-nav > div {
+nav > div,
+.sidebar > div {
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -24,31 +27,19 @@ nav > div {
   transition: background-color 0.3s;
 }
 
-nav > div:hover {
-  background-color: #f0f0f0;
-}
-
-/* nav > div > div {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  gap: 12px;
-  padding: 0 16px;
-} */
-
-nav svg {
+.sidebar svg {
   font-size: 24px;
   color: #333;
   margin-bottom: 5px;
 }
 
-nav p {
+.sidebar p {
   margin: 0;
   font-size: 16px;
   color: #333;
 }
 
-nav li {
+.sidebar li {
   width: 100%;
   list-style: none;
   padding: 0;
@@ -56,7 +47,7 @@ nav li {
   background-color: #f8f8f8;
 }
 
-nav ul {
+.sidebar ul {
   padding: 0 0;
   text-align: center;
   font-size: 16px;
@@ -64,25 +55,44 @@ nav ul {
   transition: background-color 0.3s;
 }
 
-nav a {
+.sidebar a {
   text-decoration: none;
 }
 
-/* nav ul:hover {
-  background-color: #e0e0e0;
+.mobile-toggle {
+  position: fixed;
+  top: 4vh;
+  left: 16px;
+  z-index: 101;
 }
 
-nav > div.active {
-  background-color: #05253E;
-  object-fit: contain;
-  height:min-content;
-} */
+.custom-icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #333;
+}
 
-/* nav > div.active svg,
-nav > div.active p {
-  color: white;
-} */
+@media (max-width: 991.98px) {
+  .sidebar {
+    position: fixed;
+    top: 12vh;
+    left: 0;
+    width: 60%;
+    height: calc(100vh - 12vh);
+    background-color: white;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.2);
+    overflow-y: auto;
+    transform: translateX(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 101;
+  }
 
-/* nav > div.active:hover {
-  background-color: #05253E;
-}  */
+  .sidebar.show {
+    transform: translateX(0);
+  }
+
+  .sidebar.hide {
+    transform: translateX(-100%);
+  }
+}

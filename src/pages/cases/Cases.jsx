@@ -44,8 +44,9 @@ function Cases() {
     const matchesStatus =
       statusFilter === "all" || item.status === statusFilter;
 
-    const matchesDate = !dateFilter || 
-      new Date(item.dataAbertura).toISOString().split('T')[0] === dateFilter;
+    const matchesDate =
+      !dateFilter ||
+      new Date(item.dataAbertura).toISOString().split("T")[0] === dateFilter;
 
     return matchesResponsible && matchesStatus && matchesDate;
   });
@@ -59,24 +60,25 @@ function Cases() {
   };
 
   return (
-    <div id="case-page-container">
-      <h2>Casos</h2>
-      <div className="filters-container">
-        <div className="filter-group">
+    <div className="container-fluid pt-4" id="case-page-container">
+      <h2 className="mb-4">Casos</h2>
+
+      <div className="row g-3 filters-container mb-4">
+        <div className="col-12 col-md-4">
           <input
             type="text"
             value={responsibleFilter}
             onChange={(e) => setResponsibleFilter(e.target.value)}
             placeholder="Filtrar por responsável"
-            className="filter-input"
+            className="form-control"
           />
         </div>
-        
-        <div className="filter-group">
+
+        <div className="col-12 col-md-4">
           <select
             value={statusFilter}
             onChange={(e) => setStatusFilter(e.target.value)}
-            className="filter-select"
+            className="form-select"
           >
             <option value="all">Todos status</option>
             <option value="Em andamento">Em andamento</option>
@@ -85,18 +87,19 @@ function Cases() {
           </select>
         </div>
 
-        <div className="filter-group date-filter-group">
+        <div className="col-12 col-md-4 position-relative">
           <input
             type="date"
             value={dateFilter}
             onChange={handleDateFilterChange}
-            className="filter-input"
+            className="form-control"
           />
           {dateFilter && (
-            <button 
+            <button
               onClick={clearDateFilter}
-              className="clear-date-filter"
+              className="btn btn-link position-absolute top-50 end-0 translate-middle-y me-2 p-0"
               title="Limpar filtro de data"
+              style={{ fontSize: "1.2rem" }}
             >
               ×
             </button>
@@ -104,45 +107,74 @@ function Cases() {
         </div>
       </div>
 
-      <div className="table-container">
-        <div className="table-header flex-row-container">
-          <div className="header-cell">ID</div>
-          <div className="header-cell">RESPONSÁVEL</div>
-          <div className="header-cell">DATA ABERTURA</div>
-          <div className="header-cell">STATUS</div>
-          <div className="header-cell">AÇÕES</div>
-        </div>
-
-        {isLoading ? (
-          <div className="loading-message">Carregando casos...</div>
-        ) : filteredCases.length === 0 ? (
-          <div className="no-results">Nenhum caso encontrado</div>
-        ) : (
-          filteredCases.map((caso, index) => (
-            <div className="case-row flex-row-container" key={caso._id}>
-              <div className="case-cell">{index + 1}</div>
-              <div className="case-cell">{caso.responsavel.nome}</div>
-              <div className="case-cell">
-                {new Date(caso.dataAbertura).toLocaleDateString("pt-BR")}
-              </div>
-              <div className="case-cell">
-                <span className={`status-badge ${caso.status.toLowerCase().replace(" ", "-")}`}>
-                  {caso.status}
-                </span>
-              </div>
-              <div className="case-cell actions-cell">
-                <RiEditFill 
-                  onClick={() => handleGoToCase(caso._id)} 
-                  className="edit-icon" 
-                  title="Editar caso"
-                />
-              </div>
-            </div>
-          ))
-        )}
+      <div className="table-responsive table-container">
+        <table className="table table-hover align-middle mb-0">
+          <thead className="table-dark">
+            <tr>
+              <th scope="col">ID</th>
+              <th scope="col">Responsável</th>
+              <th scope="col">Data Abertura</th>
+              <th scope="col">Status</th>
+              <th scope="col" className="text-center">
+                Ações
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {isLoading ? (
+              <tr>
+                <td colSpan="5" className="text-center py-5">
+                  Carregando casos...
+                </td>
+              </tr>
+            ) : filteredCases.length === 0 ? (
+              <tr>
+                <td colSpan="5" className="text-center py-5">
+                  Nenhum caso encontrado
+                </td>
+              </tr>
+            ) : (
+              filteredCases.map((caso, index) => (
+                <tr key={caso._id}>
+                  <td>{index + 1}</td>
+                  <td>{caso.responsavel.nome}</td>
+                  <td>
+                    {new Date(caso.dataAbertura).toLocaleDateString("pt-BR")}
+                  </td>
+                  <td>
+                    <span className={`badge ${getStatusBadge(caso.status)}`}>
+                      {caso.status}
+                    </span>
+                  </td>
+                  <td className="text-center">
+                    <RiEditFill
+                      onClick={() => handleGoToCase(caso._id)}
+                      className="edit-icon"
+                      title="Editar caso"
+                      role="button"
+                    />
+                  </td>
+                </tr>
+              ))
+            )}
+          </tbody>
+        </table>
       </div>
     </div>
   );
+}
+
+function getStatusBadge(status) {
+  switch (status) {
+    case "Em andamento":
+      return "bg-warning text-dark";
+    case "Finalizado":
+      return "bg-success";
+    case "Arquivado":
+      return "bg-secondary";
+    default:
+      return "bg-light text-dark";
+  }
 }
 
 export default Cases;

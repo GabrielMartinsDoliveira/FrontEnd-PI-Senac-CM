@@ -5,6 +5,7 @@ import { useForm } from "react-hook-form";
 import { LoginPOST } from "../../api/PathsApi";
 import "./Login.css";
 import { goToHome } from "../../router/Coordinator";
+import logo from "../../assets/imgs/ForenSeek2 1.png";
 
 const Login = () => {
   const {
@@ -54,7 +55,7 @@ const Login = () => {
     <div className="login-overlay">
       <div className="login-container">
         <div className="login-box">
-          <h2 className="login-title">Faça login em sua conta</h2>
+          <img src={logo} alt="Logo do aplicativo ForenSeek" />
 
           {errors.root && (
             <div className="login-error-message" role="alert">

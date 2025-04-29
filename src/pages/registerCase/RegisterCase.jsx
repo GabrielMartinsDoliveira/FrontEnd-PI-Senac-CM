@@ -1,5 +1,4 @@
 import { useForm } from "react-hook-form";
-import "./RegisterCaseStyled.css";
 import axios from "axios";
 import { CasePOST, HeaderReq, UserByIdGET } from "../../api/PathsApi";
 import { useEffect, useState } from "react";
@@ -23,24 +22,18 @@ const RegisterCase = () => {
   } = useForm();
 
   const handleClosePopup = () => {
-    if (popupTimeout) {
-      clearTimeout(popupTimeout);
-    }
+    if (popupTimeout) clearTimeout(popupTimeout);
     setShowPopup(false);
     goToCases(navigate);
   };
 
   const onSubmit = async (data) => {
     try {
-      const response = await axios.post(CasePOST, data, {
+      await axios.post(CasePOST, data, {
         headers: HeaderReq(token),
       });
-      console.log(`Caso Criado com sucesso ${response.data}`);
       setShowPopup(true);
-
-      const timeout = setTimeout(() => {
-        handleClosePopup();
-      }, 3000);
+      const timeout = setTimeout(() => handleClosePopup(), 3000);
       setPopupTimeout(timeout);
     } catch (error) {
       console.error("Erro ao criar caso:", error);
@@ -52,11 +45,10 @@ const RegisterCase = () => {
       const response = await axios.get(`${UserByIdGET}/${userId}`, {
         headers: HeaderReq(token),
       });
-      console.log(response.data);
       setUserCase(response.data);
       setValue("responsavel", response.data._id);
     } catch (error) {
-      console.error("Erro ao achar o usuário:", error);
+      console.error("Erro ao buscar usuário:", error);
     }
   };
 
@@ -66,122 +58,162 @@ const RegisterCase = () => {
     setValue("dataAbertura", hoje);
 
     return () => {
-      if (popupTimeout) {
-        clearTimeout(popupTimeout);
-      }
+      if (popupTimeout) clearTimeout(popupTimeout);
     };
   }, [setValue, userId]);
 
   return (
-    <>
-      <div id="form-container">
-        <h1 id="form-title">Criar Novo Caso</h1>
+    <div
+      className="container"
+      style={{
+        marginTop: "12vh",
+        marginLeft: "12vw",
+        padding: "20px",
+        minHeight: "88vh",
+        backgroundColor: "#dee1eb",
+        border: "solid 1px",
+      }}
+    >
+      <h1 className="text-center mb-4">Criar Novo Caso</h1>
 
-        <form id="case-form" onSubmit={handleSubmit(onSubmit)}>
-          <div>
-            <label htmlFor="responsavel">Responsável</label>
-            <select
-              id="responsavel"
-              disabled
-              {...register("responsavel", { required: true })}
-            >
-              {userCase ? (
-                <option value={userCase._id}>
-                  {userCase.nome || "Usuário"}
-                </option>
-              ) : (
-                <option value="">Carregando responsável...</option>
-              )}
-            </select>
-            {errors.responsavel && <p>Responsável é obrigatório.</p>}
-          </div>
+      <form className="row g-3" onSubmit={handleSubmit(onSubmit)}>
+        <div className="col-md-6">
+          <label htmlFor="responsavel" className="form-label">
+            Responsável
+          </label>
+          <select
+            id="responsavel"
+            className="form-select"
+            disabled
+            {...register("responsavel", { required: true })}
+          >
+            {userCase ? (
+              <option value={userCase._id}>{userCase.nome || "Usuário"}</option>
+            ) : (
+              <option value="">Carregando responsável...</option>
+            )}
+          </select>
+          {errors.responsavel && (
+            <div className="text-danger">Responsável é obrigatório.</div>
+          )}
+        </div>
 
-          <div>
-            <label htmlFor="status">Status</label>
-            <select id="status" {...register("status", { required: true })}>
-              <option value="">Selecione um Status</option>
-              <option value="Em andamento">Em andamento</option>
-              <option value="Finalizado">Finalizado</option>
-              <option value="Arquivado">Arquivado</option>
-            </select>
-            {errors.status && <p>Status é obrigatório.</p>}
-          </div>
+        <div className="col-md-6">
+          <label htmlFor="status" className="form-label">
+            Status
+          </label>
+          <select
+            id="status"
+            className="form-select"
+            {...register("status", { required: true })}
+          >
+            <option value="">Selecione um Status</option>
+            <option value="Em andamento">Em andamento</option>
+            <option value="Finalizado">Finalizado</option>
+            <option value="Arquivado">Arquivado</option>
+          </select>
+          {errors.status && (
+            <div className="text-danger">Status é obrigatório.</div>
+          )}
+        </div>
 
-          <div>
-            <label htmlFor="titulo">Título</label>
-            <input
-              type="text"
-              id="titulo"
-              {...register("titulo", { required: "Título é obrigatório" })}
-            />
-            {errors.titulo && <p>{errors.titulo.message}</p>}
-          </div>
+        <div className="col-md-6">
+          <label htmlFor="titulo" className="form-label">
+            Título
+          </label>
+          <input
+            type="text"
+            id="titulo"
+            className="form-control"
+            {...register("titulo", { required: "Título é obrigatório" })}
+          />
+          {errors.titulo && (
+            <div className="text-danger">{errors.titulo.message}</div>
+          )}
+        </div>
 
-          <div>
-            <label htmlFor="dataAbertura">Data de Abertura</label>
-            <input
-              type="date"
-              id="dataAbertura"
-              readOnly
-              {...register("dataAbertura", { required: true })}
-            />
-          </div>
-          <div>
-            <label htmlFor="dataOcorrencia">Data Ocorrencia</label>
-            <input
-              type="date"
-              id="dataOcorrencia"
-              {...register("dataOcorrencia", { required: true })}
-            />
-          </div>
+        <div className="col-md-6">
+          <label htmlFor="dataAbertura" className="form-label">
+            Data de Abertura
+          </label>
+          <input
+            type="date"
+            id="dataAbertura"
+            className="form-control"
+            readOnly
+            {...register("dataAbertura", { required: true })}
+          />
+        </div>
 
-          <div>
-            <label htmlFor="dataFechamento">Data de Fechamento</label>
-            <input
-              type="date"
-              id="dataFechamento"
-              disabled
-              {...register("dataFechamento")}
-            />
-          </div>
+        <div className="col-md-6">
+          <label htmlFor="dataOcorrencia" className="form-label">
+            Data Ocorrência
+          </label>
+          <input
+            type="date"
+            id="dataOcorrencia"
+            className="form-control"
+            {...register("dataOcorrencia", { required: true })}
+          />
+        </div>
 
-          <div id="description-container">
-            <label htmlFor="descricao">Descrição</label>
-            <textarea
-              id="descricao"
-              {...register("descricao", {
-                required: "Descrição é obrigatória",
-              })}
-            />
-            {errors.descricao && <p>{errors.descricao.message}</p>}
-          </div>
+        <div className="col-md-6">
+          <label htmlFor="dataFechamento" className="form-label">
+            Data de Fechamento
+          </label>
+          <input
+            type="date"
+            id="dataFechamento"
+            className="form-control"
+            disabled
+            {...register("dataFechamento")}
+          />
+        </div>
 
-          <button id="submit-button" type="submit" disabled={isSubmitting}>
+        <div className="col-12">
+          <label htmlFor="descricao" className="form-label">
+            Descrição
+          </label>
+          <textarea
+            id="descricao"
+            className="form-control"
+            rows="5"
+            {...register("descricao", { required: "Descrição é obrigatória" })}
+          ></textarea>
+          {errors.descricao && (
+            <div className="text-danger">{errors.descricao.message}</div>
+          )}
+        </div>
+
+        <div className="col-12 d-flex justify-content-center gap-4">
+          <button
+            type="submit"
+            className="btn btn-success"
+            disabled={isSubmitting}
+          >
             {isSubmitting ? "Enviando..." : "Criar Caso"}
           </button>
-        </form>
-        {showPopup && (
-          <div className="popup-overlay">
+          <button
+            onClick={() => goToCases(navigate)}
+            className="btn btn-secondary"
+          >
+            Voltar
+          </button>
+        </div>
+      </form>
+
+      {showPopup && (
+        <div className="position-fixed top-0 start-0 w-100 h-100 d-flex justify-content-center align-items-center bg-dark bg-opacity-50">
+          <div className="position-relative">
             <PopUpConfirm entityName="Caso" />
             <button
               onClick={handleClosePopup}
-              className="popup-close-button"
-              style={{
-                position: "fixed",
-                top: "20vh",
-                right: "20vw",
-                background: "transparent",
-                border: "none",
-                fontSize: "1.5rem",
-                cursor: "pointer",
-              }}
-            >
-              ×
-            </button>
+              className="btn btn-close position-absolute top-0 end-0 m-2"
+            ></button>
           </div>
-        )}
-      </div>
-    </>
+        </div>
+      )}
+    </div>
   );
 };
 

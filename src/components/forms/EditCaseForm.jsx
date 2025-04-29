@@ -2,110 +2,122 @@ import { RiCloseFill, RiSaveFill } from "react-icons/ri";
 
 function EditCaseForm({ formData, onChange, onCancel, onSubmit, error }) {
   return (
-    <form onSubmit={onSubmit} className="case-form">
-      <h2>Editar Caso</h2>
+    <form onSubmit={onSubmit} className="container my-4">
+      <h2 className="text-center mb-4">Editar Caso</h2>
 
-      <div className="form-group">
-        <label>Título:</label>
+      <div className="mb-3">
+        <label className="form-label">Título:</label>
         <input
           type="text"
           name="titulo"
           value={formData.titulo}
           onChange={onChange}
           required
+          className="form-control"
         />
       </div>
 
-      <div className="form-group">
-        <label>Descrição:</label>
+      <div className="mb-3">
+        <label className="form-label">Descrição:</label>
         <textarea
           name="descricao"
           value={formData.descricao}
           onChange={onChange}
           required
           rows={5}
+          className="form-control"
         />
       </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>Status:</label>
+      <div className="row">
+        <div className="col-md-4 mb-3">
+          <label className="form-label">Status:</label>
           <select
             name="status"
             value={formData.status}
             onChange={onChange}
             required
+            className="form-select"
           >
             <option value="Em andamento">Em andamento</option>
             <option value="Finalizado">Finalizado</option>
             <option value="Arquivado">Arquivado</option>
           </select>
         </div>
-      </div>
 
-      <div className="form-row">
-        <div className="form-group">
-          <label>Data Ocorrência:</label>
+        <div className="col-md-4 mb-3">
+          <label className="form-label">Data Ocorrência:</label>
           <input
             type="date"
             name="dataOcorrencia"
             value={formData.dataOcorrencia}
             onChange={onChange}
             required
+            className="form-control"
           />
         </div>
 
-        <div className="form-group">
-          <label>Data Abertura:</label>
+        <div className="col-md-4 mb-3">
+          <label className="form-label">Data Abertura:</label>
           <input
             type="date"
             name="dataAbertura"
             value={formData.dataAbertura}
             onChange={onChange}
             required
+            className="form-control"
           />
         </div>
 
-        <div className="form-group">
-          <label>Data Fechamento:</label>
+        <div className="col-md-4 mb-3">
+          <label className="form-label">Data Fechamento:</label>
           <input
             type="date"
             name="dataFechamento"
             value={formData.dataFechamento}
             onChange={onChange}
+            className="form-control"
           />
         </div>
       </div>
 
-      <div className="form-group">
-        <label>Latitude:</label>
-        <input
-          type="number"
-          name="localidade.latitude"
-          value={formData.localidade.latitude}
-          onChange={onChange}
-          step="any"
-        />
+      <div className="d-flex justify-content-space-evenly">
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Latitude:</label>
+          <input
+            type="number"
+            name="localidade.latitude"
+            value={formData.localidade.latitude}
+            onChange={onChange}
+            step="any"
+            className="form-control"
+          />
+        </div>
+
+        <div className="col-md-6 mb-3">
+          <label className="form-label">Longitude:</label>
+          <input
+            type="number"
+            name="localidade.longitude"
+            value={formData.localidade.longitude}
+            onChange={onChange}
+            step="any"
+            className="form-control"
+          />
+        </div>
       </div>
 
-      <div className="form-group">
-        <label>Longitude:</label>
-        <input
-          type="number"
-          name="localidade.longitude"
-          value={formData.localidade.longitude}
-          onChange={onChange}
-          step="any"
-        />
-      </div>
+      {error && (
+        <div className="alert alert-danger text-center" role="alert">
+          {error}
+        </div>
+      )}
 
-      {error && <div className="error-message">{error}</div>}
-
-      <div className="form-actions">
-        <button type="button" className="cancel-button" onClick={onCancel}>
-          <RiCloseFill /> Cancelar
+      <div className="d-flex justify-content-end gap-2 mt-4">
+        <button type="button" className="btn btn-secondary" onClick={onCancel}>
+          Cancelar
         </button>
-        <button type="submit" className="save-button">
+        <button type="submit" className="btn btn-success">
           <RiSaveFill /> Salvar
         </button>
       </div>

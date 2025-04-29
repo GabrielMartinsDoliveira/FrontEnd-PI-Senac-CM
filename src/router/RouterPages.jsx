@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 import Cases from "../pages/cases/Cases";
 import DetailsCases from "../pages/detailsCase/DetailsCase";
 import Home from "../pages/home/Home";
@@ -8,9 +8,11 @@ import ProtectedRoute from "../components/protectedRoute/ProtectedRoute";
 import RegisterUser from "../pages/registerUser/RegisterUser";
 import RegisterEvidence from "../pages/ragisterEvidences/RegisterEvidence";
 import DetailsEvidence from "../pages/detailsEvidence/DetailsEvidence";
-import Laudo from "../pages/laudo/Laudo";
-import Report from "../pages/report/Report";
 import UpdateUser from "../pages/updateUser/UpdateUser";
+import RegisterLaudo from "../pages/registerLaudo/RegisterLaudo";
+import RegisterReport from "../pages/registerReport/RegisterReport";
+import DetailsLaudo from "../pages/detailsLaudo/DetailsLaudo";
+import DetailsReport from "../pages/detailsReport/DetailsReport";
 
 export const RouterPages = () => {
   return (
@@ -25,11 +27,16 @@ export const RouterPages = () => {
           path={"/cadastrar-evidencia/:idCaso"}
           element={<RegisterEvidence />}
         />
-        <Route path={"/gerar-relatorio/:idCaso"} element={<Report />} />
+        <Route path={"/gerar-relatorio/:idCaso"} element={<RegisterReport />} />
+        <Route path={"/relatorio/:idRelatorio"} element={<DetailsReport />} />
         <Route path={"/cadastrar-usuario"} element={<RegisterUser />} />
-        <Route path={"/atualizar-usuario/:idUsuario"} element={<UpdateUser />} />
+        <Route
+          path={"/atualizar-usuario/:idUsuario"}
+          element={<UpdateUser />}
+        />
         <Route path={"/evidencia/:idEvidencia"} element={<DetailsEvidence />} />
-        <Route path={"/gerar-laudo/:idEvidencia"} element={<Laudo />} />
+        <Route path={"/gerar-laudo/:idEvidencia"} element={<RegisterLaudo />} />
+        <Route path={"/laudo/:idLaudo"} element={<DetailsLaudo />} />
       </Route>
     </Routes>
   );

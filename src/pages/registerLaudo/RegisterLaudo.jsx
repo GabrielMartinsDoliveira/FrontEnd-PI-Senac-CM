@@ -1,10 +1,16 @@
 import React, { useState, useEffect } from "react";
 import { useParams, useNavigate } from "react-router-dom";
-import "./Laudo.css";
-import { EvidenceDetailsGET, HeaderReq, LaudoPOST } from "../../api/PathsApi";
+import "./RegisterLaudo.css";
+import {
+  EvidenceDetailsGET,
+  HeaderReq,
+  LaudoPOST,
+  UserByIdGET,
+} from "../../api/PathsApi";
 import axios from "axios";
+import PopUpConfirm from "../../components/popupconfirm/PopUpConfirm";
 
-const Laudo = () => {
+const RegisterLaudo = () => {
   const { idEvidencia } = useParams();
   const navigate = useNavigate();
   const [laudo, setLaudo] = useState({
@@ -15,6 +21,8 @@ const Laudo = () => {
   const [evidenceInfo, setEvidenceInfo] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [showPopup, setShowPopup] = useState(false);
+
   const token = localStorage.getItem("token");
 
   const getEvidenceInfo = async () => {
@@ -59,6 +67,10 @@ const Laudo = () => {
 
       const createdLaudo = response.data;
       console.log("Laudo criado:", createdLaudo);
+      setShowPopup(!showPopup);
+      setTimeout(() => {
+        navigate(-1);
+      }, 3000);
     } catch (err) {
       setError(err.message);
     }
@@ -155,8 +167,9 @@ const Laudo = () => {
           </button>
         </div>
       </form>
+      {showPopup && <PopUpConfirm entityName="Laudo" />}
     </div>
   );
 };
 
-export default Laudo;
+export default RegisterLaudo;

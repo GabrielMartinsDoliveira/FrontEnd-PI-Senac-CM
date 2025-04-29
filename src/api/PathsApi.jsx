@@ -1,4 +1,4 @@
-const apiUrl = "http://localhost:3000/api";
+const apiUrl = "https://backend-forenseek.onrender.com/api";
 
 export const CasesGET = `${apiUrl}/case`;
 
@@ -30,10 +30,15 @@ export const LaudoPOST = `${apiUrl}/laudo`;
 
 export const LaudoGET = `${apiUrl}/laudo`;
 
-export const HeaderReq = (token) => {
-  const header = {
-    Authorization: `Bearer ${token}`,
-  };
+export const LaudoByEvidenciaGET = `${apiUrl}/laudo/by-evidencia`;
 
-  return header;
+export const ReportGET = `${apiUrl}/report`;
+
+export const ReportPOST = `${apiUrl}/report`;
+
+export const HeaderReq = (token) => {
+  return {
+    Authorization: `Bearer ${token}`,
+    "Content-Type": "application/json",
+  };
 };

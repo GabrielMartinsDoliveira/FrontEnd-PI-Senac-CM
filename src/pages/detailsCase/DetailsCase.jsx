@@ -5,6 +5,7 @@ import {
   CaseUpdatePUT,
   EvidencesGET,
   HeaderReq,
+  UserByIdGET,
 } from "../../api/PathsApi";
 import {
   goToCases,
@@ -13,9 +14,9 @@ import {
   goToReport,
 } from "../../router/Coordinator";
 import axios from "axios";
-import "./DetailsCase.css";
 import { RiEditFill } from "react-icons/ri";
 import EditCaseForm from "../../components/forms/EditCaseForm";
+import PopUpConfirm from "../../components/popupconfirm/PopUpConfirm";
 
 function DetailsCase() {
   const { id } = useParams();
@@ -38,11 +39,15 @@ function DetailsCase() {
   const [error, setError] = useState(null);
   const navigate = useNavigate();
   const token = localStorage.getItem("token");
+  const [userRole, setUserRole] = useState(false);
+  const userId = localStorage.getItem("userId");
+  const [showPopup, setShowPopup] = useState(false);
 
   useEffect(() => {
     if (id) {
       loadCase();
       loadEvidences(id);
+      getRoleUser();
     }
   }, [id]);
 
@@ -56,9 +61,9 @@ function DetailsCase() {
         titulo: response.data.titulo,
         status: response.data.status,
         descricao: response.data.descricao,
-        dataAbertura: response.data.dataAbertura,
-        dataOcorrencia: response.data.dataOcorrencia,
-        dataFechamento: response.data.dataFechamento || "",
+        dataAbertura: response.data.dataAbertura?.split("T")[0],
+        dataOcorrencia: response.data.dataOcorrencia?.split("T")[0],
+        dataFechamento: response.data.dataFechamento?.split("T")[0] || "",
         localidade: {
           latitude: response.data.localidade?.latitude
             ? parseFloat(response.data.localidade.latitude)
@@ -70,7 +75,7 @@ function DetailsCase() {
       });
       setLoading(false);
     } catch (error) {
-      console.log("Erro na requisição:", error);
+      console.error("Erro na requisição:", error);
       setError("Erro ao carregar caso");
       setLoading(false);
     }
@@ -83,7 +88,20 @@ function DetailsCase() {
       });
       setEvidences(response.data);
     } catch (error) {
-      console.log("Erro na requisição:", error);
+      console.error("Erro na requisição:", error);
+    }
+  };
+
+  const getRoleUser = async () => {
+    try {
+      const response = await axios.get(`${UserByIdGET}/${userId}`, {
+        headers: HeaderReq(token),
+      });
+      setUserRole(response.data.role);
+    } catch (error) {
+      console.error("Erro ao obter role do usuário:", error.message);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -103,8 +121,14 @@ function DetailsCase() {
       });
       setCaseDetail(response.data);
       setEditMode(false);
+      setShowPopup(true);
+
+      setTimeout(() => {
+        setShowPopup(false);
+        goToCases(navigate);
+      }, 3000);
     } catch (error) {
-      console.log("Erro na atualização:", error);
+      console.error("Erro na atualização:", error);
       setError("Erro ao atualizar caso");
     }
   };
@@ -118,26 +142,50 @@ function DetailsCase() {
     goToCases(navigate);
   };
 
-  const displayEvidences = () => {
-    return (
-      evidences &&
-      evidences.map((evidence) => (
-        <div key={evidence._id} className="evidence">
-          <p>Tipo: {evidence.tipo}</p>
-          <p>
-            Data Coleta: {new Date(evidence.dataColeta).toLocaleDateString("pt-BR")}
-          </p>
-          <p>Coletado Por: {evidence.coletadoPor?.nome || "Desconhecido"}</p>
-          <RiEditFill onClick={() => goToEvidence(navigate, evidence._id)} />
-        </div>
-      ))
-    );
+  const displayEvidences = () => (
+    <div className="row">
+      {evidences &&
+        evidences.map((evidence) => (
+          <div key={evidence._id} className="col-md-6 col-lg-4 mb-3">
+            <div className="card h-100">
+              <div className="card-body">
+                <p>
+                  <strong>Tipo:</strong> {evidence.tipo}
+                </p>
+                <p>
+                  <strong>Data Coleta:</strong>{" "}
+                  {new Date(evidence.dataColeta).toLocaleDateString("pt-BR")}
+                </p>
+                <p>
+                  <strong>Coletado Por:</strong>{" "}
+                  {evidence.coletadoPor?.nome || "Desconhecido"}
+                </p>
+                <button
+                  className="btn btn-sm btn-primary mt-2"
+                  onClick={() => goToEvidence(navigate, evidence._id)}
+                >
+                  <RiEditFill /> Ver Evidência
+                </button>
+              </div>
+            </div>
+          </div>
+        ))}
+    </div>
+  );
+
+  if (error && !editMode)
+    return <div className="alert alert-danger">{error}</div>;
+
+  const containerStyle = {
+    marginTop: "12vh",
+    marginLeft: "12vw",
+    padding: "20px",
+    minHeight: "88vh",
+    backgroundColor: "#dee1eb",
   };
-
-  if (error && !editMode) return <p>{error}</p>;
-
   return (
-    <div className="container-case">
+    <div className="container" style={containerStyle}>
+      {showPopup && <PopUpConfirm entityName="Caso" />}
       {editMode ? (
         <EditCaseForm
           formData={formData}
@@ -147,68 +195,103 @@ function DetailsCase() {
           error={error}
         />
       ) : (
-        <div className="case-details">
-          <h2>Detalhes do Caso</h2>
+        <div>
+          <h2 className="mb-4 l-12vw">Detalhes do Caso</h2>
 
-          <div className="details-grid">
-            <div className="detail-item">
-              <span className="label">Título:</span>
-              <span className="value">{caseDetail?.titulo}</span>
+          <div className="row g-3">
+            <div className="col-md-6">
+              <div className="card p-3">
+                <strong>Título:</strong>
+                <p>{caseDetail?.titulo}</p>
+              </div>
             </div>
 
-            <div className="detail-item">
-              <span className="label">Descrição:</span>
-              <span className="value">{caseDetail?.descricao}</span>
+            <div className="col-md-6">
+              <div className="card p-3">
+                <strong>Descrição:</strong>
+                <p>{caseDetail?.descricao}</p>
+              </div>
             </div>
 
-            <div className="detail-item">
-              <span className="label">Status:</span>
-              <span className="value">{caseDetail?.status}</span>
+            <div className="col-md-4">
+              <div className="card p-3">
+                <strong>Status:</strong>
+                <p>{caseDetail?.status}</p>
+              </div>
             </div>
 
-            <div className="detail-item">
-              <span className="label">Responsável:</span>
-              <span className="value">{caseDetail?.responsavel?.nome}</span>
+            <div className="col-md-4">
+              <div className="card p-3">
+                <strong>Responsável:</strong>
+                <p>{caseDetail?.responsavel?.nome}</p>
+              </div>
             </div>
 
-            <div className="detail-item">
-              <span className="label">Data Ocorrência:</span>
-              <span className="value">{caseDetail?.dataOcorrencia}</span>
+            <div className="col-md-4">
+              <div className="card p-3">
+                <strong>Data Ocorrência:</strong>
+                <p>
+                  {new Date(caseDetail?.dataOcorrencia).toLocaleDateString(
+                    "pt-BR"
+                  )}
+                </p>
+              </div>
             </div>
 
-            <div className="detail-item">
-              <span className="label">Data Abertura:</span>
-              <span className="value">
-                {new Date(caseDetail?.dataAbertura).toLocaleDateString("pt-BR")}
-              </span>
+            <div className="col-md-4">
+              <div className="card p-3">
+                <strong>Data Abertura:</strong>
+                <p>
+                  {new Date(caseDetail?.dataAbertura).toLocaleDateString(
+                    "pt-BR"
+                  )}
+                </p>
+              </div>
             </div>
 
-            <div className="detail-item">
-              <span className="label">Data Fechamento:</span>
-              <span className="value">
-                {caseDetail?.dataFechamento
-                  ? new Date(caseDetail.dataFechamento).toLocaleDateString("pt-BR")
-                  : "N/A"}
-              </span>
+            <div className="col-md-4">
+              <div className="card p-3">
+                <strong>Data Fechamento:</strong>
+                <p>
+                  {caseDetail?.dataFechamento
+                    ? new Date(caseDetail.dataFechamento).toLocaleDateString(
+                        "pt-BR"
+                      )
+                    : "N/A"}
+                </p>
+              </div>
             </div>
           </div>
 
-          <div className="evidence-section">
+          <div className="mt-5">
             <h3>Evidências</h3>
             {evidences ? displayEvidences() : <p>Carregando evidências...</p>}
           </div>
 
-          <div className="actions">
+          <div className="d-flex flex-wrap gap-2 mt-4">
             <button
+              className="btn btn-success"
               onClick={() => goToRegisterEvidence(navigate, caseDetail._id)}
             >
               Adicionar Evidência
             </button>
-            <button onClick={toggleEditMode}>
-              <RiEditFill /> Editar Caso
+            {userRole !== "assistente" ? (
+              <>
+                <button className="btn btn-primary" onClick={toggleEditMode}>
+                  <RiEditFill /> Editar Caso
+                </button>
+                <button
+                  className="btn btn-warning"
+                  onClick={() => goToReport(navigate, caseDetail?._id)}
+                >
+                  Gerar Relatório
+                </button>
+              </>
+            ) : null}
+
+            <button className="btn btn-secondary" onClick={handleReturnCases}>
+              Voltar
             </button>
-            <button onClick={handleReturnCases}>Voltar</button>
-            <button onClick={() => goToReport(navigate, caseDetail?._id)}>Gerar Relatório</button>
           </div>
         </div>
       )}
@@ -216,4 +299,4 @@ function DetailsCase() {
   );
 }
 
-export default DetailsCase
+export default DetailsCase;
