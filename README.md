@@ -11,6 +11,7 @@ Este repositório contém o código-fonte do front-end desenvolvido para o Proje
 - **HTML5** — Estruturação das páginas web
 - **CSS3** — Estilização das páginas web
 
+```
 ## 🛠️ Estrutura de Pastas
 FrontEnd-PI-Senac-CM/
 │
@@ -26,7 +27,7 @@ FrontEnd-PI-Senac-CM/
 │ └── index.js # Ponto de entrada do React
 ├── package.json # Gerenciamento de dependências e scripts
 └── .gitignore # Arquivos ignorados pelo Git
-
+```
 
 ## ⚙️ Como Rodar o Projeto Localmente
 
@@ -46,7 +47,7 @@ Inicie o servidor de desenvolvimento:
 bash
 npm start
 O servidor estará rodando em: https://forenseek.onrender.com/
-
+```
 Logins para testar funcionalidades:
 
 Administrador: matrícula - 000.111.222-33, senha - teste0987
@@ -54,6 +55,7 @@ Administrador: matrícula - 000.111.222-33, senha - teste0987
 Perito: matrícula - 123.456.789-01, senha - teste1234
 
 Assistente: matrícula - 222.111.212.31, senha - marconi123
+```
 
 🔐 Funcionalidades Principais
 Interface amigável e responsiva com Bootstrap
