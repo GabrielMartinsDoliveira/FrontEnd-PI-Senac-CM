@@ -40,23 +40,25 @@ const RegisterReport = () => {
     }
   };
 
-  const getCaseInfo = async () => {
-    try {
-      const response = await axios(`${CasesDetailsGET}/${idCaso}`, {
-        headers: HeaderReq(token),
-      });
-      setCaseInfo(response.data);
-      setValue("peritoResponsavel", response.data?.responsavel._id);
-      setValue("casoReportado", response.data?._id);
-      console.log("Info do caso", response.data);
-    } catch (error) {
-      console.error("Erro ao recuperar o caso", error);
-    }
-  };
+ 
 
   useEffect(() => {
-    getCaseInfo();
-  }, []);
+    const getCaseInfo = async () => {
+      try {
+        const response = await axios(`${CasesDetailsGET}/${idCaso}`, {
+          headers: HeaderReq(token),
+        });
+        setCaseInfo(response.data);
+        setValue("peritoResponsavel", caseInfo?.responsavel._id);
+        setValue("casoReportado", response.data?._id);
+        console.log("Info do caso", response.data);
+      } catch (error) {
+        console.error("Erro ao recuperar o caso", error);
+      }
+    }
+    getCaseInfo()
+    ;
+  },[token, idCaso, setValue, caseInfo]);
 
   return (
     <div

@@ -60,7 +60,7 @@ const RegisterCase = () => {
     return () => {
       if (popupTimeout) clearTimeout(popupTimeout);
     };
-  }, [setValue, userId]);
+  });
 
   return (
     <div

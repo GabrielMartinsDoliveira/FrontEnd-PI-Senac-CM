@@ -1,4 +1,4 @@
-import { RiCloseFill, RiSaveFill } from "react-icons/ri";
+import { RiSaveFill } from "react-icons/ri";
 
 function EditCaseForm({ formData, onChange, onCancel, onSubmit, error }) {
   return (

@@ -36,7 +36,7 @@ const Navbar = () => {
 
   useEffect(() => {
     getRoleUser();
-  }, [token]);
+  });
 
   const handleUserFlag = () => {
     setUserFlag(!userFlag);

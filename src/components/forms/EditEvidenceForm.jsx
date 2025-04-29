@@ -4,16 +4,13 @@ import { useState } from "react";
 
 function EditEvidenceForm({ formData, onChange, onCancel, onSubmit, error }) {
   const [files, setFiles] = useState([]);
-  const [uploadProgress, setUploadProgress] = useState({});
   const [fileError, setFileError] = useState(null);
 
   const handleFileChange = (e) => {
     const selectedFiles = Array.from(e.target.files);
 
-    // Validação básica dos arquivos
     const validFiles = selectedFiles.filter((file) => {
       if (file.size > 5 * 1024 * 1024) {
-        // 10MB max
         setFileError(`Arquivo ${file.name} excede o tamanho máximo de 5MB`);
         return false;
       }
