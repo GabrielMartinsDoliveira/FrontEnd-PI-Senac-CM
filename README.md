@@ -1,66 +1,62 @@
-FrontEnd PI - Senac
-Este repositório contém o código-fonte do front-end desenvolvido para o Projeto Integrador do curso de Coding Mobile do Senac. O projeto foi desenvolvido utilizando React e Bootstrap para criação de uma interface de usuário moderna, responsiva e funcional.
+🔍 Forenseek – Projeto Integrador (Senac Coding Mobile)
 
-📚 Tecnologias Utilizadas
-React — Biblioteca JavaScript para construção de interfaces de usuário
 
-Create React App — Ferramenta para inicializar e configurar projetos React
 
-Bootstrap — Framework de CSS para design responsivo
+Interface moderna e funcional para gestão forense — desenvolvido no Projeto Integrador do Senac (Curso de Coding Mobile)
 
-JavaScript (ES6+) — Linguagem de programação principal
+🖼️ Preview da Interface
 
-HTML5 — Estruturação das páginas web
+💡 Dica: substitua a URL acima por um print da sua aplicação hospedado no GitHub ou via imgur.
 
-CSS3 — Estilização das páginas web
+🌐 Acesse o Projeto Online
+👉 https://forenseek.onrender.com
 
-🛠️ Estrutura de Pastas
+📦 Tecnologias Utilizadas
+⚛️ React — Criação de interfaces modernas
+
+🎨 Bootstrap — Estilização e responsividade
+
+🧠 JavaScript ES6+ — Lógica e interatividade
+
+📄 HTML5 & CSS3 — Estrutura e estilo
+
+🔁 React Router — Navegação entre páginas
+
+🔌 Integração com API — Consumo de dados do backend
+
+🛠️ Instalação e Execução
+bash
+Copiar
+Editar
+# 1. Clone o repositório
+git clone https://github.com/GabrielMartinsDoliveira/FrontEnd-PI-Senac-CM.git
+
+# 2. Acesse o diretório
+cd FrontEnd-PI-Senac-CM
+
+# 3. Instale as dependências
+npm install
+
+# 4. Inicie o projeto
+npm start
+🗂️ Estrutura do Projeto
 plaintext
 Copiar
 Editar
 FrontEnd-PI-Senac-CM/
-│
-├── public/            # Arquivos estáticos públicos (favicon, index.html)
-├── src/               # Código-fonte da aplicação
-│   ├── components/    # Componentes React reutilizáveis
-│   ├── assets/        # Itens estáticos
-│   ├── pages/         # Páginas principais da aplicação
-│   ├── router/        # Arquivos relativos às rotas
-│   ├── utils/         # Funções/utilitários gerais
-│   ├── Api/           # Lógica de comunicação com a API
-│   ├── App.js         # Componente raiz da aplicação
-│   └── index.js       # Ponto de entrada do React
-├── package.json       # Gerenciamento de dependências e scripts
-└── .gitignore         # Arquivos ignorados pelo Git
-⚙️ Como Rodar o Projeto Localmente
-Clone este repositório:
-
-bash
-Copiar
-Editar
-git clone https://github.com/GabrielMartinsDoliveira/FrontEnd-PI-Senac-CM.git
-Navegue até o diretório do projeto:
-
-bash
-Copiar
-Editar
-cd FrontEnd-PI-Senac-CM
-Instale as dependências:
-
-bash
-Copiar
-Editar
-npm install
-Inicie o servidor de desenvolvimento:
-
-bash
-Copiar
-Editar
-npm start
-O servidor estará rodando em:
-👉 https://forenseek.onrender.com/
-
-🔐 Logins para Testar Funcionalidades
+├── public/
+├── src/
+│   ├── Api/
+│   ├── assets/
+│   ├── components/
+│   ├── pages/
+│   ├── router/
+│   ├── utils/
+│   ├── App.js
+│   └── index.js
+├── package.json
+└── .gitignore
+🔐 Logins de Teste
 plaintext
 Copiar
 Editar
@@ -75,33 +71,32 @@ Senha: teste1234
 Assistente
 Matrícula: 222.111.212.31
 Senha: marconi123
-🔐 Funcionalidades Principais
-Interface amigável e responsiva com Bootstrap
+✅ Funcionalidades
+Login com perfis distintos
 
-Integração com a API do back-end para operações CRUD
+CRUD de registros forenses
 
-Navegação entre páginas com React Router
+Design responsivo
 
-Componentes reutilizáveis e organizados
+Componentes modulares
 
-Separação de responsabilidades via diretórios distintos (serviços, componentes, páginas)
+Navegação fluida entre páginas
 
-👥 Colaboradores
-Gabriel Martins
+🚧 Melhorias Futuras
+📍 Uso de geolocalização
 
-[Bruno](https://github.com/BBRRUUNNOO)
+🧪 Testes automatizados com Jest
 
-[Marconi](https://github.com/marconi412)
+⚡ Performance e SEO
 
-Este projeto é de uso educacional e acadêmico no contexto do curso de Coding Mobile do Senac.
+♿ Acessibilidade (A11Y)
 
-🚀 Melhorias Futuras
-Utilização da localização do usuário ao criar certas entidades
+👨‍💻 Equipe
 
-Implementação de testes automatizados com Jest e React Testing Library
-
-Otimização de performance e SEO
-
-Melhorias em acessibilidade (A11Y)
-
-
+Nome	GitHub
+Gabriel Martins	-
+Mateus Henrique de Assis	-
+Marconi	@marconi412
+📄 Licença
+Este projeto está licenciado sob a licença MIT.
+Feito no curso Coding Mobile do Senac.
