@@ -1,7 +1,6 @@
-// src/components/Dashboard.jsx
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { Bar } from "react-chartjs-2";
+import { Bar, Pie } from "react-chartjs-2";
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -10,8 +9,9 @@ import {
   Title,
   Tooltip,
   Legend,
+  ArcElement
 } from "chart.js";
-import { CasesGET, HeaderReq } from "../../api/PathsApi";
+import { CasesGET, HeaderReq, PacientsGET } from "../../api/PathsApi";
 
 ChartJS.register(
   CategoryScale,
@@ -19,17 +19,20 @@ ChartJS.register(
   BarElement,
   Title,
   Tooltip,
-  Legend
+  Legend,
+  ArcElement
 );
 
 export default function Dashboard() {
   const [cases, setCases] = useState([]);
+  const [pacients, setPacients] = useState([]);
   const [responsaveis, setResponsaveis] = useState([]);
   const [selectedResponsavel, setSelectedResponsavel] = useState("");
   const [loading, setLoading] = useState(true);
-  const token = localStorage.getItem('token')
+  const token = localStorage.getItem('token');
 
   useEffect(() => {
+    // Carrega casos
     axios
       .get(`${CasesGET}`, {headers: HeaderReq(token)})
       .then((response) => {
@@ -39,10 +42,20 @@ export default function Dashboard() {
             response.data.map((c) => c.responsavel?.nome || "Desconhecido")
           ),
         ]);
-        setLoading(false);
       })
       .catch((error) => {
         console.error("Erro ao buscar casos:", error);
+      });
+
+    // Carrega pacientes
+    axios
+      .get(`${PacientsGET}`, {headers: HeaderReq(token)})
+      .then((response) => {
+        setPacients(response.data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Erro ao buscar pacientes:", error);
         setLoading(false);
       });
   }, [token]);
@@ -53,6 +66,7 @@ export default function Dashboard() {
       )
     : cases;
 
+  // Processamento dos dados para o gráfico de barras
   const casosPorMes = filteredCases.reduce((acc, curr) => {
     const data = new Date(curr.dataOcorrencia);
     const mesAno = `${data.getMonth() + 1}/${data.getFullYear()}`;
@@ -66,7 +80,8 @@ export default function Dashboard() {
     return new Date(anoA, mesA - 1) - new Date(anoB, mesB - 1);
   });
 
-  const data = {
+  // Dados para o gráfico de barras
+  const barData = {
     labels: mesesOrdenados,
     datasets: [
       {
@@ -77,11 +92,52 @@ export default function Dashboard() {
     ],
   };
 
-  const options = {
+  // Processamento dos dados para o gráfico de pizza (distribuição por gênero)
+  const genderDistribution = pacients.reduce((acc, pacient) => {
+    const gender = pacient.genero || "Não informado";
+    acc[gender] = (acc[gender] || 0) + 1;
+    return acc;
+  }, {});
+
+  // Dados para o gráfico de pizza
+  const pieData = {
+    labels: Object.keys(genderDistribution),
+    datasets: [
+      {
+        data: Object.values(genderDistribution),
+        backgroundColor: [
+          'rgba(255, 99, 132, 0.6)',
+          'rgba(54, 162, 235, 0.6)',
+          'rgba(255, 206, 86, 0.6)',
+          'rgba(75, 192, 192, 0.6)',
+          'rgba(153, 102, 255, 0.6)',
+        ],
+        borderColor: [
+          'rgba(255, 99, 132, 1)',
+          'rgba(54, 162, 235, 1)',
+          'rgba(255, 206, 86, 1)',
+          'rgba(75, 192, 192, 1)',
+          'rgba(153, 102, 255, 1)',
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
+
+  const barOptions = {
     responsive: true,
     plugins: {
       legend: { position: "top" },
       title: { display: true, text: "Casos Registrados por Mês" },
+    },
+    maintainAspectRatio: false,
+  };
+
+  const pieOptions = {
+    responsive: true,
+    plugins: {
+      legend: { position: "top" },
+      title: { display: true, text: "Distribuição de Pacientes por Gênero" },
     },
     maintainAspectRatio: false,
   };
@@ -124,8 +180,13 @@ export default function Dashboard() {
             </select>
           </div>
 
-          <div className="bg-white rounded-xl shadow-lg p-4 h-[60vh]">
-            <Bar options={options} data={data} />
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+            <div className="bg-white rounded-xl shadow-lg p-4 h-[40vh]">
+              <Bar options={barOptions} data={barData} />
+            </div>
+            <div className="bg-white rounded-xl shadow-lg p-4 h-[40vh]">
+              <Pie options={pieOptions} data={pieData} />
+            </div>
           </div>
         </>
       )}
